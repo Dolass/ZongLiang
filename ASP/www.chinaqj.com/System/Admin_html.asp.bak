@@ -1,9 +1,38 @@
 ﻿<!--#include file="../Include/Const.asp" -->
 <!--#include file="../Include/ConnSiteData.asp" -->
 <!--#include file="Admin_Htmlconfig.asp"-->
+<%
+	Dim runTimeCount
+		runTimeCount=0
+	If request.QueryString("rtm")<>"" Then runTimeCount = request.QueryString("rtm") End If
+%>
+<script>
+	var runTimeCount=<%=runTimeCount%>;
+	var showTM = setInterval("showTime()", 1000);
+	function showTime()	{
+		runTimeCount=runTimeCount+1;
+		var h = m = s = 0;
+		if (runTimeCount >= 60){
+			if((runTimeCount/60) >= 60){
+				h=parseInt((runTimeCount/60)/60);
+				m=parseInt((runTimeCount-((h*60))/60));
+				s=parseInt(runTimeCount-((h*60*60)+(m*60)));
+			}else{
+				m=parseInt(runTimeCount/60);
+				s=runTimeCount-(m*60);
+			}
+		} else{
+			s=runTimeCount;
+		}
+		
+		txt_runtm.innerHTML="当前生成共计用时: <span style='color:red'>"+h+"</span>:<span style='color:red'>"+m+"</span>:<span style='color:red'>"+s+"</span>";
+	}
 
+	//showTime();
+</script>
 <link rel="stylesheet" href="Images/Admin_style.css">
 <style>
+body {overflow:hidden;}
 li {list-style: none; height: 22px; line-height:22px;}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -46,9 +75,11 @@ Function BetaIsInt(value)
 End Function
 
 %>
+
 <br />
 <table width="98%" height="100px" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
+	<td width="10%">&nbsp;</td>
     <td width="300"><table width="100%" border="0" cellspacing="0" cellpadding="1">
         <tr>
           <td style="border-bottom: #ccc 1px solid; border-top: #ccc 1px solid; border-left: #ccc 1px solid; border-right: #ccc 1px solid"><img src="Images/Survey_1.gif" width="0" height="16" id="bar_img" name="bar_img" align="absmiddle"></td>
@@ -60,11 +91,12 @@ End Function
 		<span id="sp_newinfo" name="sp_newinfo" style="font-size:12px"></span>
 		<span id="bar_txtbai" name="bar_txtbai" style="font-size:12px"></span><br />
 		<span id="txt_ncount" name="txt_ncount" style="font-size:12px"></span>
+		<span id="txt_runtm" name="txt_runtm" style="font-size:12px;margin-left:50px;"></span>
 	</td>
   </tr>
 </table>
-<div style="width:100%;height:550px;" align="center">
-	<div id="div_showInfo" style="width:80%; height:500px; overflow:auto; border: 3px solid #CCC; padding:5px;" align="left">
+<div style="width:100%;height:60%;margin:0px;" align="center">
+	<div id="div_showInfo" style="width:80%; height:100%; overflow:auto; border: 3px solid #CCC; padding:5px;" align="left">
 		<a id="tst" name="tst" href="#tst">&nbsp;</a>
 <%
 	Dim pID
@@ -77,7 +109,7 @@ End Function
 	If pID<>"0" Then
 		If pID="1" Then
 			pID="2"
-			Call HtmlAllProSort			'-	生成产品分类页面
+			Call HtmlAllProSort("1")			'-	生成产品分类页面
 		ElseIf pID="2" Then
 			pID="3"
 			Call HtmlPro				'-	生成产品详细页面
@@ -129,30 +161,35 @@ End Function
 			pID="18"
 			Call HtmlIndex				'-	生成首页
 		'Else
-			Response.write("<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>")
-			Response.write("<script>bar_img.width=300;</script>")
-			Response.write("<script>bar_txt1.innerHTML=""已经成功生成所有静态文件<a href='/' target='_blank' style='color:red'>点击查看</a>"";</script>")
-			Response.write("<script>bar_txt2.innerHTML='';</script>")
-			Response.write("<script>bar_txtbai.innerHTML='';</script>")
-			Response.Write("<script>sp_newinfo.innerHTML='';</script>")
-			Response.Write("<script>$('#div_showInfo').hide(3000);</script>")
-			Response.End
+			Over="Yes"
+			'Response.End
 		End If
 	Else
 		pID="1"
 		'Call HtmlAllProSort			'-	生成产品分类页面
 	End If
 	
-	'Response.write("ID:"&pID&" Count:"&HtmlPageCounts)
-	Dim url
-		url=""&Request.ServerVariables("Url")&"?id="&pID&"&hpCount="&HtmlPageCounts&""
+	If Over="" Then
 	
-	'Response.Redirect(url)	error
-	If pID="1" Then
-		Response.write("<script>document.location='"&url&"';</script>")
+		'Response.write("ID:"&pID&" Count:"&HtmlPageCounts)
+		Dim url
+			url=""&Request.ServerVariables("Url")&"?id="&pID&"&hpCount="&HtmlPageCounts&""
+	
+		If pID="1" Then
+			Response.write("<script>document.location='"&url&"&rtm='+runTimeCount+'';</script>")
+		Else
+			Response.write("<script>var tm=3; function Nx(){bar_txt1.innerHTML='当前模块生成成功! 正准备生成下一模块...'+tm+'&nbsp;&nbsp;&nbsp;&nbsp;如果页面没有刷新,请<a href="""&url&"&rtm=""+runTimeCount+"""">点击此处</a>'; tm=tm-1;setTimeout('Nx()',1000);}</script>")
+			Response.write("<script>Nx(); setTimeout(function(){document.location='"&url&"&rtm='+runTimeCount+'';},3000);</script>")
+		End If
 	Else
-		Response.write("<script>var tm=3; function Nx(){bar_txt1.innerHTML='当前模块生成成功! 正准备生成下一模块...'+tm; tm=tm-1;setTimeout('Nx()',1000);}</script>")
-		Response.write("<script>Nx(); setTimeout(function(){document.location='"&url&"';},3000);</script>")
+		Response.write("<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>")
+		Response.write("<script>bar_img.width=300;</script>")
+		Response.write("<script>bar_txt1.innerHTML=""已经成功生成所有静态文件<a href='/' target='_blank' style='color:red'>点击查看</a>"";</script>")
+		Response.write("<script>bar_txt2.innerHTML='';</script>")
+		Response.write("<script>bar_txtbai.innerHTML='';</script>")
+		Response.Write("<script>sp_newinfo.innerHTML='';</script>")
+		Response.Write("<script>window.clearInterval(showTM);</script>")
+		Response.Write("<script>$('#div_showInfo').hide(3000);</script>")
 	End If
 	
 %>

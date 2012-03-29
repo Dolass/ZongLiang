@@ -48,5 +48,29 @@ Function SQL_Query(Conn,sql)
 	Set SQL_Query=DataDiction
 End Function
 
+'==========================================
+'	防SQL注入[简单版]
+'	sql		语句
+'	返回	替换结果
+'===========================================
+Function V(sql)
+	V=replace(sql,"'","''")
+End Function
+
+'=============================================
+'	SQL 操作通用函数[添加,修改,删除]
+'	Conn		连接
+'	sql			sql 语句
+'	返回结果,受影响的行数
+'===============================================
+Function SQL_Other(Conn,sql)
+	Dim rs
+	Set rs = server.createobject("adodb.recordset")
+	rs.open sql,Conn,1,3
+	rs.close
+	Set rs=Nothing
+	Set SQL_Query=1
+End Function
+
 %>
 <!--#include file="Function.Asp" -->

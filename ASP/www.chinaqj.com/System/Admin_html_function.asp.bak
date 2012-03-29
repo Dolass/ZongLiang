@@ -474,7 +474,7 @@ set rsh=nothing
 End Sub
 
 '--------生成招聘详细
-Sub HtmlJob_old
+Sub HtmlJob
 '-----------------------------------------------------循环生成各版HTML
 set rsh = server.createobject("adodb.recordset")
 sqlh="select * from ChinaQJ_Language order by ChinaQJ_Language_Order"
