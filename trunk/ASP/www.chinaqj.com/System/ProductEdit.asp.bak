@@ -298,7 +298,6 @@ end if
 		 <font color="blue">说明：本接口用于产品介绍的扩展说明。如除了产品详细介绍外，可以扩展：产品参数、应用案例等多方面。</font><br />
          <a href="../uploadfile/ProductDiy.png" rel="ChinaQJ[title=产品自定义参数示例效果]"><font color="#CC0000"><u>查看示例效果图</u></font></a></td>
     </tr>
-    
     <tr height="35">
       <td class="forumRowOther" align="right"><%=rs("ChinaQJ_Language_Name")%>内容：</td>
       <td align="left" class="forumRowHighlightOther">

@@ -85,6 +85,7 @@ document.onclick=function(){
 <link rel="stylesheet" href="Images/Admin_style.css">
 <script language="javascript" src="../Scripts/Admin.js"></script>
 <script language="javascript" src="JavaScript/Tab.js"></script>
+<script language="javascript" src="/Scripts/ProEdit.js"></script>
 <script language="javascript" src="<%=SysRootDir%>Scripts/ChinaQJ.js?dir=<%=SysRootDir%>Scripts/ChinaQJ"></script>
 <script language="javascript" src="/Scripts/MyEditObj.js?type=<%=editType%>"></script>
 <script language="javascript">
