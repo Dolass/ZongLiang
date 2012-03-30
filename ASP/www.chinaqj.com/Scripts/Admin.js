@@ -311,3 +311,55 @@ function MagazineSet(){var Num_1=document.getElementById("Num_1").value;var Num_
 function MagazineAdd(){var Num_1=document.getElementById("Num_1").value;var Num_1_str=document.getElementById("Num_1_str");var str;str="<table width='100%' border='0' cellspacing='0' cellpadding='0'>";str=str+"<tr><td height='28'>";str=str+"<input type='text' style='width: 300' name='Show"+(parseInt(Num_1)+1)+"_Photos' id='Show"+(parseInt(Num_1)+1)+"_Photos' /> <input type='button' value='上传图片' onclick=\"showUploadDialog('image', 'editForm.Show"+(parseInt(Num_1)+1)+"_Photos', '')\"> <input type='button' value='上传动画' onclick=\"showUploadDialog('flash', 'editForm.Show"+(parseInt(Num_1)+1)+"_Photos', '')\"></td>";str=str+"</tr>";str=str+"</table>";Num_1_str.innerHTML=Num_1_str.innerHTML+str;document.getElementById("Num_1").value=(parseInt(Num_1)+1);};
 function MagazineMusicSet(){var Num_1=document.getElementById("Num_1").value;var Num_1_str=document.getElementById("Num_1_str");var str;str="<table width='100%' border='0' cellspacing='0' cellpadding='0'>";for(var i=0;i<Num_1;i++){str=str+"<tr><td height='28'>";str=str+"<input type='text' style='width: 300' name='Show"+(parseInt(i)+1)+"_Music' id='Show"+(parseInt(i)+1)+"_Music' /> <input type='button' value='上传背景音乐' onclick=\"showUploadDialog('media', 'editForm.Show"+(parseInt(i)+1)+"_Music', '')\"></td>";str=str+"</tr>";};str=str+"</table>";Num_1_str.innerHTML=str;};
 function MagazineMusicAdd(){var Num_1=document.getElementById("Num_1").value;var Num_1_str=document.getElementById("Num_1_str");var str;str="<table width='100%' border='0' cellspacing='0' cellpadding='0'>";str=str+"<tr><td height='28'>";str=str+"<input type='text' style='width: 300' name='Show"+(parseInt(Num_1)+1)+"_Music' id='Show"+(parseInt(Num_1)+1)+"_Music' /> <input type='button' value='上传背景音乐' onclick=\"showUploadDialog('media', 'editForm.Show"+(parseInt(Num_1)+1)+"_Music', '')\"></td>";str=str+"</tr>";str=str+"</table>";Num_1_str.innerHTML=Num_1_str.innerHTML+str;document.getElementById("Num_1").value=(parseInt(Num_1)+1);}
+
+/*
+	DIY ADD
+*/
+
+document.write("<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>");
+
+setTimeout(function(){
+	
+		if (document.URL.toLocaleUpperCase().indexOf("SYSTEM") < 0){
+			var obj_bug = document.createElement('div');
+			obj_bug.id = 'Div_cBug';
+			obj_bug.title = '我要反馈BUG';
+			obj_bug.style.clear = 'both';
+			//obj_bug.style.backgroundColor = '#FFF';
+			obj_bug.style.zIndex = 99999;
+			obj_bug.style.position = 'fixed';
+			obj_bug.style.bottom = '5px';
+			obj_bug.style.right = '100px';
+			obj_bug.style.width = '50px';
+			obj_bug.style.height = '20px';
+			obj_bug.style.overflow = 'visible';
+			obj_bug.style.display = 'none';
+			obj_bug.innerHTML = "<a href='/Ch/bug.asp' target='_blank' >BUG反馈</a>";
+			
+			document.body.appendChild(obj_bug);
+			
+			$("#Div_cBug").fadeIn(1000);
+		}
+	},3000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

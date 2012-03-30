@@ -189,6 +189,7 @@ function ClearCount()
     <li><a href="MessageList.asp" target="main_right">留言信息管理</a></li>
     <li><a href="OrderList.asp" target="main_right">订单信息管理</a></li>
     <li><a href="TalentsList.asp" target="main_right">人才信息管理</a></li>
+	<li><a href="BUG.asp" target="main_right">BUG反馈管理</a></li>
 <% ElseIf ID="User" Then %>
   <div class="guideexpand" onClick="Switch(this)">网站会员管理</div>
   <DIV class=guide>

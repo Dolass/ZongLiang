@@ -292,6 +292,7 @@ function ChangeSideBarState(temp) {
               <li><a href="javascript:ShowMain('','MessageList.Asp')">留言信息管理</a></li>
               <li><a href="javascript:ShowMain('','OrderList.Asp')">订单信息管理</a></li>
               <li><a href="javascript:ShowMain('','TalentsList.Asp')">人才信息管理</a></li>
+			  <li><a href="javascript:ShowMain('','BUG.Asp')">BUG反馈管理</a></li>
             </ul>
           </div>
           <div id="ChannelMenu_User" style="width: 100%; display: none;">

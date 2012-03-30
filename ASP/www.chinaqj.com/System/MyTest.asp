@@ -47,6 +47,22 @@
 		Set SQL_Query=DataDiction
 	End Function
 	
+	Dim fedc
+		'fedc = ""
+
+	Set fedc=Server.CreateObject("Scripting.Dictionary")
+	fedc.Add "re","Red"
+	fedc.Add "gr","Green"
+	fedc.Add "bl","Blue"
+	fedc.Add "pi","Pink"
+	
+	For Each Item in fedc
+		Response.Write("<br />" & Item & " => " & fedc(Item))
+	Next
+
+
+	Response.end
+
 	Dim sobjs
 	Set sobjs=SQL_Query(Conn,"select * from ChinaQJ_News where ID=11110")
 	
@@ -58,6 +74,9 @@
 		Response.write("Null")
 	End If
 	
+	For Each Item in Request.ServerVariables
+		Response.Write("<br />" & Item & " => " & Request.ServerVariables(Item))
+	Next
 
 	'Dim obj
 	'	obj=SQL_Query("select top 5 * from ChinaQJ_News")
@@ -167,6 +186,95 @@
 
 	Response.end
 
+'====================================================================================================================
+'
+'	My Add New Function				Start...
+'
+'====================================================================================================================
+
+'============================
+'	记录日志函数(Beta)	[1]
+'	FileCOn		日志内容
+'==============================
+Function MyLog(FileCon)
+	On Error Resume Next	'-----------Error
+	Dim FilePath,FileName
+	FilePath = Request.ServerVariables("APPL_PHYSICAL_PATH") & "log\" & year(now()) & "\" & month(now()) & "\" & day(now()) & "\"
+	Call MyLog_(FilePath,"MyLog.TxT",FileCon)
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'======================================
+'	记录日志函数(Beta)	[2]
+'	FilePath	保存文件路径
+'	FileName	保存文件名称
+'	FileCon		文件内容
+'=======================================
+Function MyLog_(FilePath,FileName,FileCon)
+	On Error Resume Next	'-----------Error
+	If FilePath="" Then
+		FilePath="F:\\Mylog\"
+	End If
+	If FileName="" Then
+		FileName="MyLog.TxT"
+	End If
+
+	BetaVerifyFolder(FilePath)
+		
+	Dim Fs,Fname
+	Set Fs = Server.CreateObject("Scripting.FileSystemObject")
+	If Fs.FileExists(FilePath&FileName) = false Then 
+		Set Fname = Fs.CreateTextFile(FilePath&FileName,true)
+	Else
+		Set Fname = Fs.OpenTextFile(FilePath&FileName,8,true)
+	End If
+	Fname.WriteLine(FileCon)
+	Fname.Close
+	Set Fname=Nothing
+	Set Fs = Nothing
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'======================================================
+'	测试函数 验证目录是否存在,如果不存在则创建
+'	StrPath		目录名称
+'	无返回
+'===================================================
+Function BetaVerifyFolder(StrPath)
+	On Error Resume Next	'-----------Error
+	Dim Fs
+	Set Fs = Server.CreateObject("Scripting.FileSystemObject")
+	If Fs.FolderExists(StrPath) = false Then
+		Dim tempPath
+		Dim folderAry
+			folderAry = Split(StrPath, "\")
+		For i=0 to UBound(folderAry)-1
+			If folderAry(i)<>"" Then
+				If tempPath = "" Then 
+					tempPath = folderAry(i)
+				Else
+					tempPath = tempPath&"\"&folderAry(i)
+				End If
+				If Fs.FolderExists(tempPath) = false Then
+					Fs.CreateFolder(tempPath)
+					'Response.write("Cl -> ")
+				End If
+				'Response.write(folderAry(i)&" -> Hello  -> "&tempPath&"<br />")
+			End If
+		Next
+		'Response.write(StrPath)
+		'Response.end
+		'Fs.CreateFolder(StrPath)
+	End If
+	Set Fs = Nothing
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
 
 
 	'Function TestFun(abc)

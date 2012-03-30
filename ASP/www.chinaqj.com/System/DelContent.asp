@@ -20,6 +20,12 @@ select case Result
     if SelectID<>"" Then conn.execute "delete from ChinaQJ_Link where ID in ("&SelectID&")"
     response.redirect request.servervariables("http_referer")
 	End Select
+  case "Bug"
+	select case Trim(Request.Form("batch"))
+	case "删除所选"
+    if SelectID<>"" Then conn.execute "delete from ChinaQJ_Bug where ID in ("&SelectID&")"
+    response.redirect request.servervariables("http_referer")
+	End Select
   case "Key"
     select case Trim(Request.Form("batch"))
 	case "删除所选"
