@@ -75,7 +75,7 @@ function ClearCount()
     <LI><A href="FriendLinkList.asp" target="main_right">友情链接管理</A></li>
     <li><a href="SetKey.asp" target="main_right">站内链接管理<font color="red">(New)</font></a></li>
     <li><a href="LinkEdit.asp?Result=Add" target="main_right">站内链接添加<font color="red">(New)</font></a></li>
-    <li><a href="MyEditManage.asp" target="main_right">文本编辑器管理<font color="red">(New)</font></a></li>
+    <!--<li><a href="MyEditManage.asp" target="main_right">文本编辑器管理<font color="red">(New)</font></a></li>-->
     <li><a href="eWebEditor/Manage/style.Asp" target="main_right" style="color:#ccc" title="已经失效!" onclick="alert('设置已经失效!')">文本编辑器管理_old</a></li>
     <li><a href="eWebEditor/Manage/upload.Asp" target="main_right">上传图片管理<font color="red">(New)</font></a></li>
     <li><a href="Admin_SiteMap.asp" target="main_right">生成谷歌SiteMap<font color="red">(New)</font></a></li>
@@ -189,6 +189,7 @@ function ClearCount()
     <li><a href="MessageList.asp" target="main_right">留言信息管理</a></li>
     <li><a href="OrderList.asp" target="main_right">订单信息管理</a></li>
     <li><a href="TalentsList.asp" target="main_right">人才信息管理</a></li>
+	<li><a href="TalentsList.asp" target="main_right">BUG反馈管理</a></li>
 <% ElseIf ID="User" Then %>
   <div class="guideexpand" onClick="Switch(this)">网站会员管理</div>
   <DIV class=guide>

@@ -1,4 +1,5 @@
 ﻿<%
+
 Function ProcessSitelink(ContentHTML)
     If GetCache("SitelinkState") = "No" Then ProcessSitelink = ContentHTML: Exit Function
     If Not ChkCache("Sitelink") Then
@@ -324,7 +325,7 @@ Function FormatDate(DateAndTime, Format)
 End Function
 
 function WriteMsg(Message)
-  response.write "<script language=""JavaScript"">alert('"&Message&"');" & "history.back()" & "</script>"
+  response.write "<script language=""JavaScript"">alert('WriteMsg:"&Message&"');" & "history.back()" & "</script>"
 end function
 
 Public Language,TotalLang,Language_File,Language_FrontName,StylePath,ChinaQJPagePath,Language_Ico,Default_Index
@@ -790,6 +791,145 @@ Randomize
 Rnd_ClickNumber = CInt((Max-Min+1)*Rnd()+Min)
 End Function
 
+'====================================================================================================================
+'
+'	My Add New Function				Start...
+'
+'====================================================================================================================
 
+'============================
+'	记录日志函数(Beta)	[1]
+'	FileCOn		日志内容
+'==============================
+Function MyLog(FileCon)
+	On Error Resume Next	'-----------Error
+	Dim FilePath,FileName
+	FilePath = Request.ServerVariables("APPL_PHYSICAL_PATH") & "log\" & year(now()) & "\" & month(now()) & "\" & day(now()) & "\"
+	Call MyLog_DIY(FilePath,"MyLog.TxT",FileCon)
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'============================
+'	记录日志函数(Beta)	[2]
+'	FileName	文件名
+'	FileCOn		日志内容
+'==============================
+Function MyLog_(FileName,FileCon)
+	On Error Resume Next	'-----------Error
+	Dim FilePath
+	FilePath = Request.ServerVariables("APPL_PHYSICAL_PATH") & "log\" & year(now()) & "\" & month(now()) & "\" & day(now()) & "\"
+	Call MyLog_DIY(FilePath,FileName,FileCon)
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'======================================
+'	记录日志函数(Beta)	[3]
+'	FilePath	保存文件路径
+'	FileName	保存文件名称
+'	FileCon		文件内容
+'=======================================
+Function MyLog_DIY(FilePath,FileName,FileCon)
+	On Error Resume Next	'-----------Error
+	BetaVerifyFolder(FilePath)
+	Dim Fs,Fname
+	Set Fs = Server.CreateObject("Scripting.FileSystemObject")
+	If Fs.FileExists(FilePath&FileName) = false Then 
+		Set Fname = Fs.CreateTextFile(FilePath&FileName,true)
+	Else
+		Set Fname = Fs.OpenTextFile(FilePath&FileName,8,true)
+	End If
+	Fname.WriteLine("=================================================================================================================")
+	Fname.WriteLine("["&GetUserOSInfo()&"]["&GetUserBrowserInfo()&"]["&GetUserTrueIP()&"]---------------------"&now()&"--------------")
+	Fname.WriteLine("*************************************************************************************************")
+	Fname.WriteLine("")
+	Fname.WriteLine("    "&FileCon)
+	Fname.WriteLine("")
+	Fname.WriteLine("*************************************************************************************************")
+	Fname.WriteLine("=================================================================================================================")
+	Fname.WriteLine("")
+	'Response.write(FileCon)
+	'Response.end
+	Fname.Close
+	Set Fname=Nothing
+	Set Fs = Nothing
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'======================================================
+'	测试函数 验证目录是否存在,如果不存在则创建
+'	StrPath		目录名称
+'	无返回
+'===================================================
+Function BetaVerifyFolder(StrPath)
+	On Error Resume Next	'-----------Error
+	Dim Fs
+	Set Fs = Server.CreateObject("Scripting.FileSystemObject")
+	If Fs.FolderExists(StrPath) = false Then
+		Dim tempPath
+		Dim folderAry
+			folderAry = Split(StrPath, "\")
+		For i=0 to UBound(folderAry)-1
+			If folderAry(i)<>"" Then
+				If tempPath = "" Then 
+					tempPath = folderAry(i)
+				Else
+					tempPath = tempPath&"\"&folderAry(i)
+				End If
+				If Fs.FolderExists(tempPath) = false Then
+					Fs.CreateFolder(tempPath)
+					'Response.write("Cl -> ")
+				End If
+				'Response.write(folderAry(i)&" -> Hello  -> "&tempPath&"<br />")
+			End If
+		Next
+		'Response.write(StrPath)
+		'Response.end
+		'Fs.CreateFolder(StrPath)
+	End If
+	Set Fs = Nothing
+	If Err.Number<>0 Then
+		Err.Clear
+	End If
+End Function
+
+'=================================================
+'	记录错误信息函数(Beta)
+'	FunName		函数名称
+'	obj			参数[1]
+'	objval		参数值[1]
+'================================================
+Function LogError(FunName,obj,objval)
+	if Err.Number<>0 Then
+		Call MyLog_("ErrorLog.TxT","函数 "&FunName&" 执行错误: ["&Err.Number&"]  "&Err.Description&" ["&Err.Source&"] ")	'LOG
+		obj = objval					'...
+		Err.Clear						'	clear error
+	end If
+End Function
+
+'=================================================
+'	记录错误信息函数(Beta)[page]
+'	PageName	页面名称
+'================================================
+Function LogPageError(PageName)
+	if Err.Number<>0 Then
+		Call MyLog_("PageErrorLog.TxT","页面 "&PageName&" 出现错误: ["&Err.Number&"]  "&Err.Description&" ["&Err.Source&"] ")	'LOG
+		Err.Clear						'	clear error
+	end If
+End Function
+
+'====================================================
+'	清除错误函数(Beta)
+'===================================================
+Function cError()
+	If Err.Number<>0 Then
+		Err.Clear			'	clear error
+	End If
+End Function
 
 %>

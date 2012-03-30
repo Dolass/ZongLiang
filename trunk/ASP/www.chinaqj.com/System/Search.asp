@@ -33,6 +33,8 @@ select case Result
     response.redirect ("MagazineList.asp?Result=Search&Keyword="&server.urlencode(Keyword)&"&Page=1")
   case "Key"
     response.redirect ("KeyList.asp?Result=Search&Keyword="&server.urlencode(Keyword)&"&Page=1")
+  case "Bug"
+    response.redirect ("Bug.asp?Result=Search&Keyword="&server.urlencode(Keyword)&"&Page=1")
   case else
 end select
 %>

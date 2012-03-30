@@ -116,7 +116,7 @@
 			  <tbody>
 				<tr>
 				  <td style="padding:8px; background-color:#FFBA00; color:#333; font-weight:bold; width:15px;">友情提示</td>
-				  <td width="8" style="background-color:#fff;"><img src="../Templates/Skin02/linkpic.jpg"></td>
+				  <td width="8" style="background-color:#fff;"><img src="<%= stylepath %>linkpic.gif"></td>
 				  <td style="background-color:#fff; padding:8px; color:#999" align="left">
 					<li style='border-bootm:#666666 solid 1px;margin-top:5px;'>1.点击产品图片进入产品详细页面</li>
 					<li style='border-bootm:#666666 solid 1px;margin-top:5px;'>2.点击产品右下方,点击放大图片</li>

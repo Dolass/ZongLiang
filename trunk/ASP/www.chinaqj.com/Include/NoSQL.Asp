@@ -6,7 +6,7 @@ If Request.Form<>"" Then
   For Each Fy_Post In Request.Form
     For Fy_Xh=0 To Ubound(Fy_Inf)
       If Instr(LCase(Request.Form(Fy_Post)),Fy_Inf(Fy_Xh))<>0 Then
-        Response.write "<script language='JavaScript'>alert('"&ChinaQJLanguageTxt3&"');" & "history.back()" & "</script>"
+        Response.write "<script language='JavaScript'>alert(""I'm sorry, the system detects that the data you submit to contain illegal content!"");" & "history.back()" & "</script>"
         Response.End
       End If
     Next
@@ -16,7 +16,7 @@ If Request.QueryString<>"" Then
   For Each Fy_Get In Request.QueryString
     For Fy_Xh=0 To Ubound(Fy_Inf)
       If Instr(LCase(Request.QueryString(Fy_Get)),Fy_Inf(Fy_Xh))<>0 Then
-        Response.write "<script language='JavaScript'>alert('"&ChinaQJLanguageTxt3&"');" & "history.back()" & "</script>"
+        Response.write "<script language='JavaScript'>alert(""I'm sorry, the system detects that the data you submit to contain illegal content!"");" & "history.back()" & "</script>"
         Response.End
       End If
     Next
