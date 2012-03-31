@@ -16,7 +16,7 @@ Id=request.QueryString("ID")	'当前页数
 Language="Ch"					'语言
 	
 Dim pInfo
-Set pInfo=BetaNewInfoFunction(TabName,Id,Language)
+Set pInfo=BetaNewInfoFunction(TabName,"=",Id,Language,"")
 If pInfo.Count Then
 	If pInfo("0")("SeoKeywords"&Language) <> "" Then
 		SeoKeywords=pInfo("0")("SeoKeywords"&Language)

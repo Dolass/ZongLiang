@@ -29,12 +29,6 @@
 	<td class="contentcenter">
 
 <%
-	TabName="ChinaQJ_Products"			'表名
-	Id=request.QueryString("ID")	'当前页数
-	Language="Ch"					'语言
-	
-	Dim pInfo
-	Set pInfo=BetaNewInfoFunction(TabName,Id,Language)
 	If pInfo.Count Then
 %>
 		<div>
@@ -156,8 +150,8 @@
 					</tr>
 <%
 					Dim mPrevious,mNext
-					Set mPrevious=BetaNewInfoFunction(TabName,(Id-1),Language)
-					Set mNext=BetaNewInfoFunction(TabName,(Id+1),Language)
+					Set mPrevious=BetaNewInfoFunction(TabName,"<",Id,Language,"")
+					Set mNext=BetaNewInfoFunction(TabName,">",Id,Language,"")
 %>
 					<tr><td height="25">上一篇: 
 <%

@@ -150,8 +150,8 @@
 					</tr>
 <%
 					Dim mPrevious,mNext
-					Set mPrevious=BetaNewInfoFunction(TabName,(Id-1),Language)
-					Set mNext=BetaNewInfoFunction(TabName,(Id+1),Language)
+					Set mPrevious=BetaNewInfoFunction(TabName,"<",Id,Language," ORDER BY ID DESC")
+					Set mNext=BetaNewInfoFunction(TabName,">",Id,Language,"")
 %>
 					<tr><td height="25">上一篇: 
 <%
