@@ -2,7 +2,7 @@
 <table width="980" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px #ccc solid; margin-top:10px;">
   <tr>
     <td style="padding:8px; background-color:#ccc; color:#333; font-weight:bold; width:15px;"><%= ChinaQJLanguageTxt293 %></td>
-    <td width="8" style="background-color:#fff;"><img src="<%= stylepath %>linkpic.jpg" /></td>
+    <td width="8" style="background-color:#fff;"><img src="<%= stylepath %>linkpic1.gif" /></td>
     <td style="background-color:#fff; padding:8px;"><%= ChinaQJIndexFriendLinks(3,7) %></td>
   </tr>
 </table>

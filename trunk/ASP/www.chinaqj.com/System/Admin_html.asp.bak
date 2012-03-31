@@ -109,7 +109,7 @@ End Function
 	If pID<>"0" Then
 		If pID="1" Then
 			pID="2"
-			Call HtmlAllProSort("1")			'-	生成产品分类页面
+			Call HtmlAllProSort			'-	生成产品分类页面
 		ElseIf pID="2" Then
 			pID="3"
 			Call HtmlPro				'-	生成产品详细页面
@@ -188,7 +188,7 @@ End Function
 		Response.write("<script>bar_txt2.innerHTML='';</script>")
 		Response.write("<script>bar_txtbai.innerHTML='';</script>")
 		Response.Write("<script>sp_newinfo.innerHTML='';</script>")
-		Response.Write("<script>window.clearInterval(showTM);</script>")
+		Response.Write("<script>window.clearInterval(showTM);showTime()</script>")
 		Response.Write("<script>$('#div_showInfo').hide(3000);</script>")
 	End If
 	

@@ -14,8 +14,8 @@ If Err Then
     Response.End
 End If
 
-Conn.close
-Set Conn = Nothing
+'Conn.close
+'Set Conn = Nothing
 
 '==========================================
 '	SQL 函数 (Beta)
@@ -57,7 +57,7 @@ End Function
 '======================================
 Function SQL_Query(sql)
 	On Error Resume Next	'-----------Error
-
+	Response.write(sql)
 	Dim DataDiction,Conn,rs
 	Set DataDiction=Server.CreateObject("Scripting.Dictionary")
 	Set Conn = GetConnection()

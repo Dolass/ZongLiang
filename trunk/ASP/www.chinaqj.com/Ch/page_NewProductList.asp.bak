@@ -25,20 +25,6 @@
   <tr>
     <td class="contentcenter"><div class="contentnav"><%=ChinaQJProductListWebLocation()%></div></td>
   </tr>
-  <%
-		TbName="ChinaQJ_Products"			'表名
-		WSql="NewFlagCh"					'WHERE 条件(sql)
-		PageShowCount=12					'每页显示数量
-		PageId=request.QueryString("page")	'当前页数
-		ImgW=150							'图片宽
-		ImgH=113							'图片高
-		StrW=20								'文字长度(中文=两个字节)
-		Lan="Ch"							'语言
-		ClassSeo="New"&ClassSeo				'---
-  %>
-  <tr>
-    <td class="contentcenter"><%=BetaFunction(TbName,WSql,PageShowCount,PageId,ImgW,ImgH,StrW,Lan)%></td>
-  </tr>
   <tr>
 	<td class="contentcenter">
 	<%
