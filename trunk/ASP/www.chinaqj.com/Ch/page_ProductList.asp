@@ -92,7 +92,9 @@
 							<td height="19" align="left">
 							  Time：<span style="font-size: 11px"><%=FormatDate(allPro(""&i&"")("UpdateTime"),13)%></span>&nbsp;&nbsp;
 							  <a href="<%=allPro(""&i&"")("BigPic")%>" title="点击查看大图" rel="clearbox[gallery=Green,,title='<%=ProductName%>',,comment='<%=ProductName%>']">
-							  <img src="<%=StylePath%>zoom.gif" border="0" align="absmiddle"></a>
+							  <img src="<%=StylePath%>zoom.gif" border="0" align="absmiddle" />
+							  <img src="<%=allPro(""&i&"")("BigPic")%>" border="0" style="display:none" />
+							  </a>
 							</td>
 						  </tr>
 						</tbody>
