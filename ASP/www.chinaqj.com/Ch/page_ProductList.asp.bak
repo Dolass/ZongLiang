@@ -46,24 +46,24 @@
 		Dim quAry 
 			quAry = Array("SortID")
 		
-		Dim allNews
-		Set allNews=BetaNewFunction(TabName,WSql,StrOrder,PageShowCount,PageId,Language)
+		Dim allPro
+		Set allPro=BetaNewFunction(TabName,WSql,StrOrder,PageShowCount,PageId,Language)
 		
-		If allNews.Count Then
+		If allPro.Count Then
 %>
 	  <form action="ProductBuy.Asp" method="Post" name="Inquire" target="_blank">
 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
 		  <tbody>
 <%
-			For i=0 To allNews.Count-1
+			For i=0 To allPro.Count-1
 				
-				ProductName=allNews(""&i&"")("ProductName"&Language)
+				ProductName=allPro(""&i&"")("ProductName"&Language)
 				ProductName_=StrLeft(ProductName,StrL)				
-				SmallPicPath=HtmlSmallPic(allNews(""&i&"")("GroupID"),allNews(""&i&"")("SmallPic"),allNews(""&i&"")("Exclusive"))	' img
+				SmallPicPath=HtmlSmallPic(allPro(""&i&"")("GroupID"),allPro(""&i&"")("SmallPic"),allPro(""&i&"")("Exclusive"))	' img
 				If ISHTML = 1 Then
-					AutoLink = ""&SysRootDir&Language&"/"&allNews(""&i&"")("ClassSeo")&""&Separated&""&allNews(""&i&"")("ID")&"."&HTMLName
+					AutoLink = ""&SysRootDir&Language&"/"&allPro(""&i&"")("ClassSeo")&""&Separated&""&allPro(""&i&"")("ID")&"."&HTMLName
 				Else
-					AutoLink = ""&SysRootDir&Language&"/ProductView.Asp?ID="&allNews(""&i&"")("ID")&""
+					AutoLink = ""&SysRootDir&Language&"/ProductView.Asp?ID="&allPro(""&i&"")("ID")&""
 				End If
 				If i Mod 4=0 Then
 %>
@@ -90,8 +90,8 @@
 						  </tr>
 						  <tr>
 							<td height="19" align="left">
-							  Time：<span style="font-size: 11px"><%=FormatDate(allNews(""&i&"")("UpdateTime"),13)%></span>&nbsp;&nbsp;
-							  <a href="<%=allNews(""&i&"")("BigPic")%>" title="点击查看大图" rel="clearbox[gallery=Green,,title='<%=ProductName%>',,comment='<%=ProductName%>']">
+							  Time：<span style="font-size: 11px"><%=FormatDate(allPro(""&i&"")("UpdateTime"),13)%></span>&nbsp;&nbsp;
+							  <a href="<%=allPro(""&i&"")("BigPic")%>" title="点击查看大图" rel="clearbox[gallery=Green,,title='<%=ProductName%>',,comment='<%=ProductName%>']">
 							  <img src="<%=StylePath%>zoom.gif" border="0" align="absmiddle"></a>
 							</td>
 						  </tr>

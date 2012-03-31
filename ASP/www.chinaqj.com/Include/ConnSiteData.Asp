@@ -57,8 +57,7 @@ End Function
 '======================================
 Function SQL_Query(sql)
 	On Error Resume Next	'-----------Error
-
-	Dim DataDiction,Conn,rs
+ 	Dim DataDiction,Conn,rs
 	Set DataDiction=Server.CreateObject("Scripting.Dictionary")
 	Set Conn = GetConnection()
 	Set rs = server.createobject("adodb.recordset")

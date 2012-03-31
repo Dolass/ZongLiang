@@ -3,6 +3,8 @@
 <!--#include file="../Include/ConnSiteData.Asp" -->
 <!--#include file="Function.Asp" -->
 <%
+On Error Resume Next	'-----------Error
+
 Call SiteInfo
 If ISHTML = 1 Then
 Response.expires = 0
@@ -127,3 +129,6 @@ set rs=nothing
 <% End If %>
 </body>
 </html>
+<%
+	LogPageError("首页")			'--log error
+%>

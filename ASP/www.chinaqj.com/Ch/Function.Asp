@@ -442,7 +442,7 @@ Function ChinaQJIndexFriendLinks(trs,tds)
             Response.Write "        <tr>"&VbCrLf
             Response.Write "          <td align=""center"" height=""18"">"
             If rs("LinkType") = 0 Then
-            Response.Write "<a href="""&rs("LinkUrl")&""" title="""&rs("LinkName"&Language)&""">"&LinkFace&"</a>"
+            Response.Write "<a href="""&rs("LinkUrl")&""" target=""_blank"" title="""&rs("LinkName"&Language)&""">"&LinkFace&"</a>"
             Else
             Response.Write "<a href="""&rs("LinkUrl")&""" target=""_blank""><img src="""&rs("LinkFace"&Language)&""" alt="""&rs("LinkName"&Language)&""" width=""88"" height=""31"" border=""0"" /></a>"
             End If
@@ -2617,6 +2617,10 @@ sub ChinaQJProductBuyMemInfo()
   set rs=nothing
 end Sub
 
+'==========================================
+'	提交订单
+'	
+'=============================================
 function ChinaQJProductBuyForm()
     Response.Write "            <table width=""100%"" border=""0"" align=""center"" cellpadding=""3"" cellspacing=""5"">"&VbCrLf
     Response.Write "              <form action=""ProductBuySave.Asp?MemberID="&mMemID&""" method=""post"" name=""formBuy"" id=""formBuy"">"&VbCrLf
@@ -6626,7 +6630,7 @@ Function HTMLEncode(fString)
 End Function
 
 Sub Url_Return(ChinaQJ_String)
-    response.Write "<script language=""JavaScript"">alert('" & ChinaQJ_String & "');" & "history.back()" & "</script>"
+    response.Write "<script language=""JavaScript"">alert('Message:" & ChinaQJ_String & "');" & "history.back()" & "</script>"
     Response.End()
 End Sub
 
@@ -7656,7 +7660,7 @@ Function BetaNewFunction(TabName,StrWhere,StrOrder,PageShowCount,PageId,Language
 		End if
 	End If
 	
-	Set BetaNewFunction=SQL_Query(Conn,MySql)
+	Set BetaNewFunction=SQL_Query(MySql)
 
 End Function
 
@@ -7674,7 +7678,7 @@ Function BetaNewInfoFunction(TabName,Id,Language)
 
 	MySql="SELECT * FROM "&TabName&" WHERE ViewFlag"&Language&" AND ID="&Id
 	
-	Set BetaNewInfoFunction=SQL_Query(Conn,MySql)
+	Set BetaNewInfoFunction=SQL_Query(MySql)
 
 End Function
 

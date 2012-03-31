@@ -4,6 +4,7 @@
 <!--#include file="Function.Asp" -->
 <!--#include file="../Include/GetUserInfo.asp" -->
 <%
+
 Call SiteInfo
 Call FormCheckdata
 dim Products
@@ -28,6 +29,7 @@ end If
 <link href="Images/global.css" type="text/css" rel="stylesheet">
 <script language="javascript" src="../Scripts/Admin.js"></script>
 <script type="text/javascript" src="../Scripts/Flash.js"></script>
+<script type="text/javascript" src="../Scripts/BUG.js"></script>
 <script language="JavaScript">
 <!--
 function killErrors() {
@@ -49,7 +51,8 @@ window.onerror = killErrors;
 				b = data;
 				var tt = data.match(/<title>(.+)<\/title>/);
 				//alert('你要的标题是：'+$('#ttb').text(tt[1]));
-				alert(tt[1]);
+				$("#txt_title").val(tt[1]+" 有BUG!");
+				//alert(tt[1]);
 				//alert("\u7533\u8bf7VID\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\uff01");
 				//document.getElementById("a_page").innerHTML = GetString(tt[1],10);
 				//document.getElementById("a_page").style.display = "block";
