@@ -16,21 +16,19 @@ Id=request.QueryString("ID")	'当前页数
 Language="Ch"					'语言
 	
 Dim pInfo
-Set pInfo=BetaNewInfoFunction(TabName,Id,Language)
+Set pInfo=BetaNewInfoFunction(TabName,"=",Id,Language)
 If pInfo.Count Then
-	Dim rs=Server.CreateObject("Scripting.Dictionary")
-	Set rs=pInfo("0")
-	If rs("SeoKeywords"&Language) <> "" Then
-		SeoKeywords=rs("SeoKeywords"&Language)
+	If pInfo("0")("SeoKeywords"&Language) <> "" Then
+		SeoKeywords=pInfo("0")("SeoKeywords"&Language)
 	Else
-		SeoKeywords=rs("ProductName"&Language)
+		SeoKeywords=pInfo("0")("ProductName"&Language)
 	End If
-	If rs("SeoDescription"&Language) <> "" Then
-		SeoDescription=rs("SeoDescription"&Language)
+	If pInfo("0")("SeoDescription"&Language) <> "" Then
+		SeoDescription=pInfo("0")("SeoDescription"&Language)
 	Else
-		SeoDescription=rs("ProductName"&Language)
+		SeoDescription=pInfo("0")("ProductName"&Language)
 	End If
-	SeoTitle=rs("ProductName"&Language)
+	SeoTitle=pInfo("0")("ProductName"&Language)
 Else
 	Response.Redirect("/404.html")
 	Response.End

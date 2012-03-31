@@ -6630,7 +6630,7 @@ Function HTMLEncode(fString)
 End Function
 
 Sub Url_Return(ChinaQJ_String)
-    response.Write "<script language=""JavaScript"">alert('" & ChinaQJ_String & "');" & "history.back()" & "</script>"
+    response.Write "<script language=""JavaScript"">alert('Message:" & ChinaQJ_String & "');" & "history.back()" & "</script>"
     Response.End()
 End Sub
 
@@ -7667,16 +7667,17 @@ End Function
 '==========================================
 '	测试函数(获取[obj]详细)[2]
 '	TabName			表名
+'	v				操作符号
 '	Id				ID
 '	Language		语言
 '=============================================
-Function BetaNewInfoFunction(TabName,Id,Language)
+Function BetaNewInfoFunction(TabName,v,Id,Language)
 	
 	If TabName="" Then TabName="ChinaQJ_Obj" End If
 	Id=BetaIsInt(Id)			' is int
 	If Language="" Then Language="Ch" End If
 
-	MySql="SELECT * FROM "&TabName&" WHERE ViewFlag"&Language&" AND ID="&Id
+	MySql="SELECT TOP 1 * FROM "&TabName&" WHERE ViewFlag"&Language&" AND ID"&v&Id
 	
 	Set BetaNewInfoFunction=SQL_Query(MySql)
 

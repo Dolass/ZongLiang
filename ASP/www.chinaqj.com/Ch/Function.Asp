@@ -7667,16 +7667,18 @@ End Function
 '==========================================
 '	测试函数(获取[obj]详细)[2]
 '	TabName			表名
+'	v				操作符号
 '	Id				ID
 '	Language		语言
+'	morder			排序
 '=============================================
-Function BetaNewInfoFunction(TabName,Id,Language)
+Function BetaNewInfoFunction(TabName,v,Id,Language,morder)
 	
 	If TabName="" Then TabName="ChinaQJ_Obj" End If
 	Id=BetaIsInt(Id)			' is int
 	If Language="" Then Language="Ch" End If
 
-	MySql="SELECT * FROM "&TabName&" WHERE ViewFlag"&Language&" AND ID="&Id
+	MySql="SELECT TOP 1 * FROM "&TabName&" WHERE ViewFlag"&Language&" AND ID"&v&Id&morder
 	
 	Set BetaNewInfoFunction=SQL_Query(MySql)
 
