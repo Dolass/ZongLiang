@@ -1,0 +1,14 @@
+<div id="footer">
+  <div id="copyright">
+    <p>
+	  <a href="{sdcms:root}">网站首页</a>
+	  {sdcms:loop field="pagedir,htmlname,title,id" table="sd_other" where="followid=0" top="6"}　|　<a href="{link}">{title}</a>{/sdcms:loop}　|　
+	  <a href="{sdcms:root}plug/book/">意见反馈</a>　|　<a href="{sdcms:root}plug/link/">友情链接</a>　|　<a href="{sdcms:root}sitemap{sdcms:filetxt}">网站地图</a>
+	</p>
+    <p>中瑞传媒&nbsp;&nbsp;&nbsp;粤ICP备110512654810</p>
+    <p>客服电话:0755-33581131&nbsp; 7*24小时技术服务电话：138265711667</p>
+	<p>{sdcms_footer_end}</p>
+  </div>
+</div>
+</body>
+</html>
