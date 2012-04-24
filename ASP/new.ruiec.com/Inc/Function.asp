@@ -1281,7 +1281,7 @@ Function Get_Tags(ByVal t0)
 				Case "1"
 				Get_Tags=Get_Tags&" "&"<a href="""&sdcms_root&"tags/"&Server.URLEncode(Trim(t0(i)))&Sdcms_FileTxt&""" target=""_blank"">"&Trim(t0(i))&"</a>"
 				Case Else
-				Get_Tags=Get_Tags&" "&"<a href="""&sdcms_root&"tags/?/"&Server.URLEncode(Trim(t0(i)))&"/"" target=""_blank"">"&Trim(t0(i))&"</a>"
+				Get_Tags=Get_Tags&" "&"<a href="""&sdcms_root&"tags/?tag="&Server.URLEncode(Trim(t0(i)))&""" target=""_blank"">"&Trim(t0(i))&"</a>"
 			End Select
 		End IF
 	Next
@@ -1733,6 +1733,14 @@ End Function
 '======================================================
 Function v(vstr)
 	v = Replace(vstr,"'","''")
+End Function
+
+'=====================================================
+'	验证 防SQL注入[反编]
+'	传入字符串,返回字符串
+'======================================================
+Function rv(vstr)
+	rv = Replace(vstr,"''","'")
 End Function
 
 '======================================================

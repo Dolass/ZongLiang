@@ -10,7 +10,7 @@
 			<a href="{@link}" title="{@title}" [@if {@isurl}=1]target="_blank"[@end if] {@style}>{@title}</a>
 		</div>
 		<div class="listNewsDescription">
-			{@jj function="nohtml" len="200"}
+			<div>{@jj function="nohtml" len="100"}</div>
 			<p class="xline yuduqunwen">
 				<span class="date">{@adddate date="yyyy-mm-dd hh.ff.ss"}</span>
 			    <a href="{@link}" [@if {@isurl}=1]target="_blank"[@end if] {@style}>阅读全文>></a>
@@ -27,6 +27,7 @@
 	<h3>新闻分类</h3>
 	<ul>
 	{sdcms:loop top="10" pageid="1" table="sd_class" where="PartentID LIKE '%,{sdcms:class_id}%'" order="id desc"}
+	{eof}<li>没有资料</li>{/eof}
 		<li><a href="{link}" title="{title}">{title}</a></li>
 	{/sdcms:loop}
 	</ul>

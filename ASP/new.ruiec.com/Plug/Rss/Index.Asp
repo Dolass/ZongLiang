@@ -40,7 +40,7 @@ Function Get_Rss(t0,t1)
 	
 	t2=t2&"<description><![CDATA["&Rs(2)&"]]></description>"& vbcrlf
 	t2=t2&"<language>zh-cn</language>"& vbcrlf
-	t2=t2&"<generator>Rss Generator By "&Sdcms_new_version&"</generator>"& vbcrlf
+	t2=t2&"<generator>Rss Generator By RuiEc </generator>"& vbcrlf
 	End IF
 	Set Rs=Conn.Execute("Select Top 100 title,classid,jj,lastupdate,author,htmlname,classurl,id From View_info Where Classid In("&t1&") and ispass=1 Order by lastupdate desc")
 	
@@ -74,11 +74,11 @@ Function Get_allrss
 	t1=t1&"<rss version=""2.0"">"& vbcrlf
 	t1=t1&"<channel>"& vbcrlf
 
-	t1=t1&"<title>"&sdcms_webname&" Rss Generator By "&Sdcms_new_version&"</title>"& vbcrlf
+	t1=t1&"<title>"&sdcms_webname&" Rss Generator By RuiEc </title>"& vbcrlf
 	t1=t1&"<link>"&sdcms_weburl&sdcms_root&"</link>"& vbcrlf
 	t1=t1&"<description><![CDATA["&loadrecord("webdec","sd_const",1)&"]]></description>"& vbcrlf
 	t1=t1&"<language>zh-cn</language>"& vbcrlf
-	t1=t1&"<generator>Rss Generator By SDCMS.CN</generator>"& vbcrlf
+	t1=t1&"<generator>Rss Generator By RuiEc </generator>"& vbcrlf
 	Set Rs=Conn.Execute("Select title,ClassUrl,Class_desc,ID From Sd_Class Order By Id desc")
 	While Not Rs.Eof
 	t1=t1&"<item>"& vbcrlf

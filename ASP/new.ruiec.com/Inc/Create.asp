@@ -7,6 +7,7 @@ Class Sdcms_Create
 		Set Temp=New Templates
 		Temp.Label "{sdcms:class_id}",0
 		Temp.Label "{sdcms:class_title}","首页"
+		Temp.Label "{sdcms:class_title_site}",Sdcms_WebIndexTitle
 		Temp.Label "{sdcms:nav_title}","首页"
 		Temp.Label "{sdcms:class_key}",""
 		Temp.Label "{sdcms:class_desc}",""
@@ -15,6 +16,7 @@ Class Sdcms_Create
 		Temp.Label "{sdcms:class_url}",Sdcms_weburl
 		Temp.Label "{sdcms:class_followid}",""
 		Temp.Label "{sdcms:class_position}",""
+		Temp.Label "{sdcms:map_nav}",""
 
 			Temp.Load(Load_temp_dir&sdcms_skins_index)
 			Show=Temp.Gzip
@@ -33,6 +35,7 @@ Class Sdcms_Create
 		Set Temp=New Templates
 		Temp.Label "{sdcms:class_id}",0
 		Temp.Label "{sdcms:class_title}","网站地图"
+		Temp.Label "{sdcms:class_title_site}","网站地图"
 		Temp.Label "{sdcms:nav_title}",""
 		Temp.Label "{sdcms:class_key}",""
 		Temp.Label "{sdcms:class_desc}",""
@@ -41,6 +44,7 @@ Class Sdcms_Create
 		Temp.Label "{sdcms:class_url}",Sdcms_weburl
 		Temp.Label "{sdcms:class_followid}",""
 		Temp.Label "{sdcms:class_position}",""
+		Temp.Label "{sdcms:map_nav}",""
 	    FileName="sitemap"&Sdcms_FileTxt
 		Temp.Label "{sdcms:map}",showmap
 		Temp.Load(Load_temp_dir&sdcms_skins_map)
@@ -115,14 +119,14 @@ Class Sdcms_Create
 	
 	Public Sub Create_Channel(t0)
 		t0=IsNum(t0,0)
-		Dim Temp,Rs,classname,t1,classkey,classdesc,ClassUrl,channel_temp,classfollowid,show_class_position,partentids,i,rs_p,rs_n,FileName,show,Classdir
+		Dim Temp,Rs,classname,t1,classkey,classdesc,ClassUrl,channel_temp,classfollowid,show_class_position,partentids,i,rs_p,rs_n,FileName,show,Classdir,Site_Title
 		Set Temp=New Templates
-		Set Rs=Conn.Execute("Select title,allclassid,keyword,class_desc,PageNum,ClassUrl,Channel_temp,followid,partentid,id From Sd_Class Where Id="&t0&"")
+		Set Rs=Conn.Execute("Select title,allclassid,keyword,class_desc,PageNum,ClassUrl,Channel_temp,followid,partentid,id,Site_Title From Sd_Class Where Id="&t0&"")
 		IF Rs.Eof Then
 			Rs.Close:Set Rs=Nothing
 			Response.Redirect Sdcms_WebUrl
 			Exit Sub
-		End IF
+		End If
 		classname=Rs(0)
 		t1=Rs(1)
 		classkey=Rs(2)
@@ -132,7 +136,7 @@ Class Sdcms_Create
 		ClassDir=ClassUrl
 		Channel_Temp=Rs(6)
 		ClassFollowid=Rs(7)
-		
+		Site_Title=Rs(10)
 		Select Case Sdcms_Mode
 			Case "0":ClassUrl=Sdcms_Root&"Info/?ID="&Rs(9)
 			Case "1":ClassUrl=Sdcms_Root&"html/"&Rs(5)
@@ -143,6 +147,8 @@ Class Sdcms_Create
 		partentids=Rs(8)
 		Rs.Close:Set Rs=Nothing
 		
+		If Site_Title="" Then Site_Title=classname End If
+
 		Dim ClassRoot
 		partentids=Split(partentids,",")
 		For I=Ubound(partentids) To 0 Step -1 
@@ -153,13 +159,14 @@ Class Sdcms_Create
 					Case "1":ClassRoot=Sdcms_Root&"html/"&Rs_P(0)
 					Case "2":ClassRoot=Sdcms_Root&Sdcms_HtmDir&Rs_P(0)
 				End Select
-				Show_Class_Position=Show_Class_Position&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
+				If I>0 Then Show_Class_Position=Show_Class_Position&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
 				Rs_P.Close:Set Rs_P=Nothing
 			End IF
 		Next
 		
 		Temp.Label "{sdcms:class_id}",t0
 		Temp.Label "{sdcms:class_title}",classname
+		Temp.Label "{sdcms:class_title_site}",Site_Title
 		Temp.Label "{sdcms:nav_title}",classname
 		Temp.Label "{sdcms:class_key}",classkey
 		Temp.Label "{sdcms:class_desc}",classdesc
@@ -168,6 +175,7 @@ Class Sdcms_Create
 		Temp.Label "{sdcms:class_url}",classurl
 		Temp.Label "{sdcms:class_followid}",classfollowid
 		Temp.Label "{sdcms:class_position}",show_class_position
+		Temp.Label "{sdcms:map_nav}",show_class_position
 		
 		FileName="Index"&Sdcms_FileTxt
 
@@ -190,10 +198,10 @@ Class Sdcms_Create
 	
 	'-----------------------------------------------------------
 	Public Sub Create_I_List(t0)
-		Dim Temp,classname,t1,classkey,classdesc,ClassUrl,ClassDir,ClassTemp,ClassFollowid
+		Dim Temp,classname,t1,classkey,classdesc,ClassUrl,ClassDir,ClassTemp,ClassFollowid,Site_Title
 		Dim Show_Class_Position,partentids,I,Rs_P,Rs_N,diy_title
 		Set Temp=New Templates
-		Set Rs=Conn.Execute("Select title,allclassid,keyword,class_desc,pagenum,ClassUrl,list_temp,followid,partentid,id From Sd_Class Where Id="&t0&"")
+		Set Rs=Conn.Execute("Select title,allclassid,keyword,class_desc,pagenum,ClassUrl,list_temp,followid,partentid,id,Site_Title From Sd_Class Where Id="&t0&"")
 		IF Rs.Eof Then
 			Rs.Close:Set Rs=Nothing
 			Response.Redirect Sdcms_WebUrl
@@ -208,6 +216,7 @@ Class Sdcms_Create
 		ClassDir=ClassUrl
 		ClassTemp=Rs(6)
 		ClassFollowid=Rs(7)
+		Site_Title=Rs(10)
 		
 		Select Case Sdcms_Mode
 			Case "0":classurl=Sdcms_Root&"Info/?ID="&Rs(9)
@@ -218,6 +227,8 @@ Class Sdcms_Create
 		Show_Class_Position=""
 		Partentids=Rs(8)
 		diy_title = ""
+		
+		If Site_Title="" Then Site_Title=classname End If
 
 		Dim ClassRoot
 		Partentids=Split(Partentids,",")
@@ -232,13 +243,15 @@ Class Sdcms_Create
 					Case "2":ClassRoot=Sdcms_Root&Sdcms_HtmDir&Rs_P(0)
 				End Select
 				If diy_title="" Then diy_title = Rs_P(1)
-				Show_Class_Position=Show_Class_Position&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
+				If I>0 Then Show_Class_Position=Show_Class_Position&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
+				'Show_Class_Position=Show_Class_Position&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
 				Rs_P.Close:Set Rs_P=Nothing
 			End IF
 		Next
 		
 		Temp.Label "{sdcms:class_id}",t0
 		Temp.Label "{sdcms:class_title}",ClassName
+		Temp.Label "{sdcms:class_title_site}",Site_Title
 		Temp.Label "{sdcms:nav_title}",diy_title
 		Temp.Label "{sdcms:class_key}",ClassKey
 		Temp.Label "{sdcms:class_desc}",ClassDesc
@@ -247,6 +260,7 @@ Class Sdcms_Create
 		Temp.Label "{sdcms:class_url}",ClassUrl
 		Temp.Label "{sdcms:class_followid}",ClassFollowid
 		Temp.Label "{sdcms:class_position}",Show_Class_Position
+		Temp.Label "{sdcms:map_nav}",Show_Class_Position
 		Rs.Close
 		Set Rs=Nothing
 		Dim Sql,IndexName,Show
@@ -344,12 +358,14 @@ Class Sdcms_Create
 			
 			Rs_N.Close
 			Set Rs_N=Nothing
-		End IF
+		End If
+
 		show_i_position=""
 		diy_ptitle = ""
 		
 		Temp.Label "{sdcms:class_id}",show_i_classid
 		Temp.Label "{sdcms:class_title}",show_i_title
+		Temp.Label "{sdcms:class_title_site}",show_i_title
 		Temp.Label "{sdcms:class_key}",""
 		Temp.Label "{sdcms:class_desc}",show_i_jj
 		Temp.Label "{sdcms:class_allclassid}",0
@@ -399,6 +415,7 @@ Class Sdcms_Create
 		Temp.Label "{sdcms:info_classname}",Show_I_ClassName
 		Temp.Label "{sdcms:info_classurl}",Info_Class_Url
 		Temp.Label "{sdcms:info_position}",show_i_position
+		Temp.Label "{sdcms:map_nav}",show_i_position
 		Temp.Label "{sdcms:info_likeid}",show_i_likeid
 		Temp.Label "{sdcms:info_pic}",show_i_pic
 		Temp.Label "{sdcms:info_update}",show_i_update
@@ -533,12 +550,15 @@ Class Sdcms_Create
 		'增加的分页标签内容
 		Temp.Label "{sdcms:other_id}",other_id
 		Temp.Label "{sdcms:other_title}",other_title
+		Temp.Label "{sdcms:class_title}",other_title
+		Temp.Label "{sdcms:class_title_site}",other_title
 		Temp.Label "{sdcms:nav_title}",other_title
 		Temp.Label "{sdcms:other_url}",other_url
 		Temp.Label "{sdcms:other_pagedir}",other_pagedir
 		Temp.Label "{sdcms:other_followid}",other_followid
 		Temp.Label "{sdcms:other_key}",other_Key
 		Temp.Label "{sdcms:other_desc}",other_Desc
+		Temp.Label "{sdcms:map_nav}",""
 		IF Sdcms_Mode=2 Then
 		Dim getcontent,pagenums,i,FileName,k,show,content_page
 		getcontent=split(other_content,"$show_page$")
@@ -630,5 +650,73 @@ Class Sdcms_Create
 			Echo Show
 		End IF
 	End Sub
+
+	Public Sub Create_Search_List(so_key,page)
+		page=IsNum(page,1)
+		Dim Temp,Show
+		Set Temp=New Templates
+
+		Temp.Label "{sdcms:class_id}",0
+		Temp.Label "{sdcms:class_title}","与  "&FilterText(so_key,3)&"  相关的搜索结果"
+		Temp.Label "{sdcms:class_title_site}",FilterText(so_key,3)&" 搜索结果"
+		Temp.Label "{sdcms:so_key}",so_key
+		Temp.Label "{sdcms:so_keys}",v(so_key)
+		Temp.Label "{sdcms:so_pate}",page
+		Temp.Label "{sdcms:nav_title}",""
+		Temp.Label "{sdcms:class_key}",""
+		Temp.Label "{sdcms:map_nav}",""
+	
+		Show=Temp.Sdcms_Load(Sdcms_Root&"skins/"&Sdcms_Skins_Root&"/"&sdcms_skins_search)
+		
+		Temp.TemplateContent=Show
+		Temp.Analysis_Static()
+		Show=Temp.Display
+		Temp.Page_Mark(Show)
+		
+		Temp.TemplateContent=Show
+		Temp.Analysis_Static()
+		Temp.Analysis_Loop()
+		Temp.Analysis_IIF()
+		Show=Temp.Gzip
+		Show=Temp.Display
+		
+		Echo Show
+
+		Set Temp=Nothing
+	End Sub
+	
+	Public Sub Create_Tag_List(tag,page)
+		page=IsNum(page,1)
+		Dim Temp,Show
+		Set Temp=New Templates
+
+		Temp.Label "{sdcms:class_id}",0
+		Temp.Label "{sdcms:class_title}","Tag:  "&FilterText(tag,3)&" "
+		Temp.Label "{sdcms:class_title_site}","Tag: "&FilterText(tag,3)&" 搜索结果"
+		Temp.Label "{sdcms:tag}",v(tag)
+		Temp.Label "{sdcms:tag_page}",page
+		Temp.Label "{sdcms:nav_title}",""
+		Temp.Label "{sdcms:class_key}",""
+		Temp.Label "{sdcms:map_nav}",""
+	
+		Show=Temp.Sdcms_Load(Sdcms_Root&"skins/"&Sdcms_Skins_Root&"/"&sdcms_skins_tags)
+		
+		Temp.TemplateContent=Show
+		Temp.Analysis_Static()
+		Show=Temp.Display
+		Temp.Page_Mark(Show)
+		
+		Temp.TemplateContent=Show
+		Temp.Analysis_Static()
+		Temp.Analysis_Loop()
+		Temp.Analysis_IIF()
+		Show=Temp.Gzip
+		Show=Temp.Display
+		
+		Echo Show
+
+		Set Temp=Nothing
+	End Sub
+
 End Class
 %>

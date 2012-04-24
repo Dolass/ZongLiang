@@ -82,11 +82,11 @@ Sub Add
 	Dim Rs
 	Dim ID:ID=IsNum(Trim(Request.QueryString("ID")),0)
 	IF ID>0 Then
-		Set Rs=Conn.Execute("select id,title,url,ispic,pic,ispass,content from "&Sd_Table&" where id="&id&"")
+		Set Rs=Conn.Execute("select id,title,url,ispic,pic,ispass,content,Pic_b from "&Sd_Table&" where id="&id&"")
 		IF Rs.Eof Then
 			Echo "请勿非法提交参数":Exit Sub
 		Else
-			Dim t0,t1,t2,t3,t4,t5,t6
+			Dim t0,t1,t2,t3,t4,t5,t6,t41
 			t0=Rs(0)
 			t1=Rs(1)
 			t2=Rs(2)
@@ -94,6 +94,7 @@ Sub Add
 			t4=Rs(4)
 			t5=Rs(5)
 			t6=Rs(6)
+			t41=Rs(7)
 		End IF
 		Rs.Close
 		Set Rs=Nothing
@@ -117,8 +118,13 @@ Sub Add
       <td><input name='t2' type='radio' onClick=$('#flag')[0].style.display='none';this.form.t3.disabled=true; value='0' <%=IIF(t3=0,"checked","")%> id="t2_0"><label for="t2_0">文字链接</label> <input name='t2' type='radio' onClick=$('#flag')[0].style.display='';this.form.t3.disabled=false; value='1' <%=IIF(t3=1,"checked","")%> id="t2_1"><label for="t2_1">图片链接</label></td>
     </tr>
 	  <tr class="tdbg <%IF t3=0 Then%>dis<%End IF%>" id='flag' >
-      <td align="center">图片地址：</td>
-      <td><input name="t3" type="text" value="<%=t4%>" class="input" id="t3" size="40"  <%IF t3=0 Then%>disabled<%End IF%>><%admin_upfile 1,"100%","20","t3","UpLoadIframe",0,0%></td>
+      <td align="center">图片地址1：</td>
+      <td><input name="t3" type="text" value="<%=t4%>" class="input" id="t3" size="40"  <%IF t3=0 Then%>disabled<%End IF%>>　<span>黑白</span><%admin_upfile 1,"100%","20","t3","UpLoadIframe",0,0%></td>
+    </tr>
+	</tr>
+	  <tr class="tdbg <%IF t3=0 Then%>dis<%End IF%>" id='flag' >
+      <td align="center">图片地址2：</td>
+      <td><input name="t31" type="text" value="<%=t41%>" class="input" id="t31" size="40"  <%IF t3=0 Then%>disabled<%End IF%>>　<span>彩色</span><%admin_upfile 1,"100%","20","t31","UpLoadIframes",0,0%></td>
     </tr>
 	<tr class="tdbg">
       <td align="center">链接标识：</td>
@@ -139,14 +145,18 @@ End Sub
 
 Sub Save
 	Dim ID:ID=IsNum(Trim(Request.QueryString("ID")),0)
-	Dim t0,t1,t2,t3,t4,t5,t6,up1,Rs,Sql,LogMsg,sdcms_c
+	Dim t0,t1,t2,t3,t31,t4,t5,t6,up1,Rs,Sql,LogMsg,sdcms_c
 	t0=FilterText(Trim(Request.Form("t0")),1)
 	t1=FilterText(Trim(Request.Form("t1")),0)
 	t2=IsNum(Trim(Request.Form("t2")),0)
 	t3=FilterText(Trim(Request.Form("t3")),0)
+	t31=FilterText(Trim(Request.Form("t31")),0)
 	t4=IsNum(Trim(Request.Form("t4")),0)
 	t6=FilterText(Trim(Request.Form("t5")),1)
 	up1=IsNum(Trim(Request.Form("up1")),0)
+	
+	If t31="" Then t31=t3 End If
+
 	IF ID=0 Then
 		sdcms.Check_lever 21
 		Set Rs=Conn.Execute("select max(ordnum) from ["&Sd_Table&"] where ispic="&t2&"")
@@ -162,7 +172,7 @@ Sub Save
 	End IF
 	
 	Set Rs=Server.CreateObject("adodb.recordset")
-	Sql="Select title,url,ispic,pic,ispass,ordnum,content from "&Sd_Table&""
+	Sql="Select title,url,ispic,pic,ispass,ordnum,content,Pic_b from "&Sd_Table&""
 	IF ID>0 Then 
 	 sql=sql&" Where ID="&ID&""
 	End IF
@@ -179,6 +189,7 @@ Sub Save
 	Rs(4)=Left(t4,255)
 	IF ID=0 Then Rs(5)=t5
 	Rs(6)=Left(t6,50)
+	Rs(7)=Left(t31,255)
 	Rs.Update
 	Rs.Close
 	Set Rs=Nothing

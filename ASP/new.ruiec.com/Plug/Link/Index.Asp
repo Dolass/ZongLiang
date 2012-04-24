@@ -83,6 +83,7 @@ Select Case Lcase(Trim(Request.QueryString("Action")))
 		Temp.Label "{sdcms:class_url}",Sdcms_weburl
 		Temp.Label "{sdcms:class_followid}",""
 		Temp.Label "{sdcms:class_position}",""
+		Temp.Label "{sdcms:map_nav}",""
 		Temp.Load(Load_temp_dir&sdcms_skins_link)
 		Temp.Gzip
 		Echo Temp.Display

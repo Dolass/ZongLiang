@@ -57,6 +57,7 @@ Select Case Lcase(Trim(Request.QueryString("Action")))
 		Dim Temp
 		Set Temp=New Templates
 			Temp.Label "{sdcms:vote_id}",ID
+			Temp.Label "{sdcms:map_nav}",""
 			Temp.Load(Load_temp_dir&sdcms_skins_vote)
 			Temp.Gzip
 			Echo Temp.Display
