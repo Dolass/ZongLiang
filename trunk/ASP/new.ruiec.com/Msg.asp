@@ -3,7 +3,7 @@
 
 burl = Request.ServerVariables("HTTP_REFERER")
 
-If InStr(burl,  Sdcms_WebUrl)<=0 Then 
+If InStr(LCase(burl),  LCase(Sdcms_WebUrl))<=0 Then 
 	Response.write("<script type='text/javascript'>alert('Error: \u8bf7\u52ff\u975e\u6cd5\u63d0\u4ea4!'); window.location.href='"&Sdcms_WebUrl&"'; </script>")
 	Response.end
 End If

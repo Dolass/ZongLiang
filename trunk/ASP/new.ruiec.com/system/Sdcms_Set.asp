@@ -30,7 +30,7 @@ Db_Run
 Closedb
 Sub Main
 	Dim Rs,i,all_set,FontArr
-	Set Rs=Conn.Execute("Select id,webname,weburl,webkey,webdec From "&Sd_Table&" Where Id=1")
+	Set Rs=Conn.Execute("Select id,webname,weburl,webkey,webdec,WebIndex_Title From "&Sd_Table&" Where Id=1")
 	DbQuery=DbQuery+1
 	IF Rs.eof then
 		Echo "请勿非法提交参数":Exit Sub
@@ -41,6 +41,10 @@ Sub Main
     <tr>
       <td width="150" align="center" class="tdbg">网站名称：</td>
       <td class="tdbg"><input name="t0" type="text" class="input" value="<%=rs(1)%>" size="30"></td>
+    </tr>
+	<tr>
+      <td width="150" align="center" class="tdbg">首页标题：</td>
+      <td class="tdbg"><input name="t27" type="text" class="input" value="<%=rs(5)%>" size="30"></td>
     </tr>
     <tr class="tdbg">
       <td align="center">网站域名：</td>
@@ -279,7 +283,7 @@ Sub Main
 End Sub
 
 Sub Save
-	Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26
+	Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27
 	Dim f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12_0,f12_1,f13,f14,f15
 	Dim c0,c1,c2,c3,c4,c5,c6,c7
 	Dim Old_DataFile,Old_DataName
@@ -308,6 +312,7 @@ Sub Save
 	t24=IsNum(Trim(Request.Form("t24")),60)
 	t25=IsNum(Trim(Request.Form("t25")),0)
 	t26=FilterText(Trim(Request.Form("t26")),0)'文件类型
+	t27=FilterText(Trim(Request.Form("t27")),1)'首页title
 	
 	f0=FilterText(Trim(Request.Form("f0")),1)
 	f1=FilterText(Trim(Request.Form("f1")),1)
@@ -354,13 +359,14 @@ Sub Save
 	t19=Replace(t19,".","")
 	Dim Rs,Sql
 	Set Rs=server.CreateObject("Adodb.RecordSet")
-	Sql="Select WebName,WebUrl,WebKey,WebDec From "&Sd_Table&" Where Id=1"
+	Sql="Select WebName,WebUrl,WebKey,WebDec,WebIndex_Title From "&Sd_Table&" Where Id=1"
 	Rs.Open Sql,Conn,1,3
 	Rs.Update
 		Rs(0)=left(t0,255)
 		Rs(1)=left(t1,255)
 		Rs(2)=left(t4,255)
 		Rs(3)=left(t5,255)
+		Rs(4)=left(t27,255)
 	Rs.Update
 	Rs.Close
 	Set Rs=Nothing
@@ -440,6 +446,8 @@ Sub Save
 	Config=Config&"%"& vbcrlf
 	Config=Config&"'网站名称"& vbcrlf
 	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_WebName:Sdcms_WebName="""&t0&""""&vbcrlf
+	Config=Config&"'首页标题"& vbcrlf
+	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_WebIndexTitle:Sdcms_WebIndexTitle="""&t27&""""&vbcrlf
 	Config=Config&"'网站域名"& vbcrlf
 	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_WebUrl:Sdcms_WebUrl="""&t1&""""&vbcrlf
 	Config=Config&"'系统目录，根目录为：""/"",虚拟目录形式为：""/sdcms/"""& vbcrlf

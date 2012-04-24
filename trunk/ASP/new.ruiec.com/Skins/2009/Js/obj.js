@@ -166,29 +166,13 @@ function get_comment(t0,t1)
 }
 
 
-function checksearch(theform)
-{
-	if (trim(theform.key.value)=='')
-	{alert('关键字不能为空');
-	theform.key.focus();
-	theform.key.value='';
-	return false
+function checksearch(){
+	if (trim(document.getElementById('so_key').value)==''){
+		alert('关键字不能为空');
+		document.getElementById('so_key').focus();
+		return false;
 	}
-	if (theform.key.value=='请输入关键字')
-	{alert('关键字不能为空');
-	theform.key.focus();
-	theform.key.value='';
-	return false
-	}
-	if(navigator.userAgent.indexOf("MSIE")>0)
-	{
-		window.location.href=webdir+"search/?/"+urlEncode(trim(theform.key.value))+"/";
-	}
-	else
-	{
-		window.location.href=webdir+"search/?/"+trim(theform.key.value)+"/";
-	}
-	return false
+	return true;
 }
 
 function set_comment(followid,title)

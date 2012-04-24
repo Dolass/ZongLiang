@@ -47,11 +47,12 @@ Sub Main
     <tr>
       <td width="60" class="title_bg">编号</td>
       <td width="*" class="title_bg">标题</td>
+	  <td width="200" class="title_bg">页面标题</td>
       <td width="200" class="title_bg">管理</td>
     </tr>
 	<%
 	Dim Rs,Sql
-	Sql="Select ID,Title,Ordnum,Depth,Followid,ClassUrl From "&Sd_Table&" Order By Ordnum,ID"
+	Sql="Select ID,Title,Ordnum,Depth,Followid,ClassUrl,Site_Title From "&Sd_Table&" Order By Ordnum,ID"
 	Set Rs=Conn.Execute(Sql)
 	DbQuery=DbQuery+1
 	IF Rs.Eof Then
@@ -87,8 +88,7 @@ Sub Show_Class(ParentId)
 %>
 <tr onmouseover=this.bgColor='#EEFEED'; onmouseout=this.bgColor='#ffffff';  bgcolor='#ffffff'>
       <td align="center" height="25"><input type="Hidden" name="ID" value="<%=Class_Array(0,I)%>" class="input" size="2"><%=Class_Array(0,I)%></td>
-      <td ><%For J=0 To Class_Array(3,I)%>　<%Next%><%=IIF(Class_Array(4,I)>0,"<img src=""Images/line.gif"" />","")%><a href="<%=Get_Link(Sd_Table,Url)%>" target="_blank"><%=Class_Array(1,I)%></a>　<span class="c9">排序</span> <input type="text" name="ordnum" value="<%=Class_Array(2,I)%>" class="input" size="2" onKeyUp="value=value.replace(/[^\d]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''));"></td>
-      <td align="center"><%IF Sdcms_Mode=2 Then%><a href="?action=makehtml&id=<%=Class_Array(0,I)%>">生成</a>　<%End IF%><a href="?action=add&followid=<%=Class_Array(0,I)%>">添加子类</a>　<a href="?action=move&id=<%=Class_Array(0,I)%>">移动</a>　<a href="?action=edit&id=<%=Class_Array(0,I)%>">编辑</a>　<a href="?action=del&id=<%=Class_Array(0,I)%>" onclick="return confirm('真的要删除?不可恢复!\n\n将删除该类别下的所有信息!');">删除</a></td>
+      <td ><%For J=0 To Class_Array(3,I)%>　<%Next%><%=IIF(Class_Array(4,I)>0,"<img src=""Images/line.gif"" />","")%><a href="<%=Get_Link(Sd_Table,Url)%>" target="_blank"><%=Class_Array(1,I)%></a>　<span class="c9">排序</span> <input type="text" name="ordnum" value="<%=Class_Array(2,I)%>" class="input" size="2" onKeyUp="value=value.replace(/[^\d]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''));"></td><td align="center" height="25"><a href="?action=edit&id=<%=Class_Array(0,I)%>"><%=Class_Array(6,I)%></a></td><td align="center"><%IF Sdcms_Mode=2 Then%><a href="?action=makehtml&id=<%=Class_Array(0,I)%>">生成</a>　<%End IF%><a href="?action=add&followid=<%=Class_Array(0,I)%>">添加子类</a>　<a href="?action=move&id=<%=Class_Array(0,I)%>">移动</a>　<a href="?action=edit&id=<%=Class_Array(0,I)%>">编辑</a>　<a href="?action=del&id=<%=Class_Array(0,I)%>" onclick="return confirm('真的要删除?不可恢复!\n\n将删除该类别下的所有信息!');">删除</a></td>
   </tr>
 <%
 	Show_Class(Class_Array(0,I))
@@ -119,12 +119,12 @@ Sub SaveOrder
 End Sub
 
 Sub Add
-	Dim t0,t1,t2,t3,t4,t5,t5_0,t5_1,t6,t7,t8,t9,t10
+	Dim t0,t1,t2,t3,t4,t5,t5_0,t5_1,t6,t7,t8,t9,t10,t11
 	Dim Rs,Sql
 	Dim ID:ID=IsNum(Trim(Request.QueryString("ID")),0)
 	Dim Followid:Followid=IsNum(Trim(Request.QueryString("followid")),0)
 	IF ID>0 Then
-		Sql="Select title,ClassUrl,followid,class_type,channel_temp,list_temp,show_temp,pagenum,keyword,class_desc,Ordnum From "&Sd_Table&" Where ID="&ID
+		Sql="Select title,ClassUrl,followid,class_type,channel_temp,list_temp,show_temp,pagenum,keyword,class_desc,Ordnum,Site_Title From "&Sd_Table&" Where ID="&ID
 		Set Rs=Conn.Execute(Sql)
 		DbQuery=DbQuery+1
 		IF Rs.Eof Then
@@ -143,6 +143,7 @@ Sub Add
 			t8=Rs(8)
 			t9=Rs(9)
 			t10=Rs(10)
+			t11=Rs(11)
 			IF Right(t1,"1")="/" Then t1=Left(t1,Len(t1)-1)
 		End IF
 		Rs.Close
@@ -187,6 +188,10 @@ Sub Add
       <td class="tdbg"><input name="t10" value="<%=t10%>" class="input" type="text" id="t10" size="40" maxlength="5" onKeyUp="value=value.replace(/[^\d]/g,'');"  onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''));">　<span>数字越小越靠前</span></td>
     </tr>
 	<tr>
+      <td width="120" align="center" class="tdbg">分类标题：      </td>
+      <td class="tdbg"><input value="<%=t11%>" name="t11" class="input" type="text" id="t11" size="40" maxlength="50">　<span>用于前页面显示标题</span></td>
+    </tr>
+	<tr>
       <td align="center" class="tdbg">关 键 字：</td>
       <td class="tdbg"><textarea name="t8"  id="t8" cols="60" rows="2" class="inputs"><%=Content_Encode(t8)%></textarea></td>
     </tr>
@@ -227,7 +232,7 @@ Sub Add
 End Sub
 
 Sub Save
-Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,up1,up2,Sys_dir,i,Rs,Sql,LogMsg,act,id
+Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,up1,up2,Sys_dir,i,Rs,Sql,LogMsg,act,id
 ID=IsNum(Trim(Request.QueryString("ID")),0)
 t0=FilterText(Trim(Request.Form("t0")),1)
 t1=FilterText(Trim(Request.Form("t1")),0)
@@ -240,7 +245,9 @@ t7=IsNum(Trim(Request.Form("t7")),20)
 t8=FilterHtml(Trim(Request.Form("t8")))
 t9=FilterHtml(Trim(Request.Form("t9")))
 t10=IsNum(Trim(Request.Form("t10")),0)
+t11=FilterText(Trim(Request.Form("t11")),1)
 
+If t11="" Then t11=t0 End If
 IF Right(t1,1)<>"/" Then t1=t1&"/"
 IF Left(t1,1)="/" Then t1=Right(t1,Len(t1)-1)
 IF t7<=0 Then t7=20
@@ -268,7 +275,7 @@ Else
 End IF
 
 Set Rs=Server.CreateObject("adodb.recordset")
-Sql="Select title,ClassUrl,followid,class_type,channel_temp,list_temp,show_temp,pagenum,keyword,class_desc,ordnum,Depth,id From "&Sd_Table
+Sql="Select title,ClassUrl,followid,class_type,channel_temp,list_temp,show_temp,pagenum,keyword,class_desc,ordnum,Depth,id,Site_Title From "&Sd_Table
 IF ID=0 Then
 	Sql=Sql&" Where ClassUrl='"&t1&"' And Followid="&t2&""
 Else
@@ -294,6 +301,7 @@ Rs(6)=Left(t6,50)
 Rs(7)=IsNum(t7,20)
 Rs(8)=t8
 Rs(9)=t9
+Rs(13)=t11
 IF ID=0 Then Rs(10)=IsNum(t10,1)
 IF ID=0 Then Rs(11)=Get_Max_Depth(t2)
 Rs.UpDate

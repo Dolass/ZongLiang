@@ -3,7 +3,7 @@
   <div id="con_left">
      {@sdcms:loop table="View_info" where="classid = {sdcms:class_id} and ispass=1" order="Ontop desc,id desc"}
 		{@eof}<div>没有资料</div>{/@eof}
-		<div class="services_box" style="background:url({@pic}) no-repeat 30px 50%">
+		<div class="services_box" style="background:url({@pic}) no-repeat 0px 50%">
 			<h5>{@title}</h5>
 			<p>{@jj function="nohtml" len="200"}</p>
 			<a href="{@link}">了解详情</a>
@@ -15,6 +15,7 @@
 	<h3>服务项目</h3>
 	<ul>
 		{@sdcms:loop table="View_info" where="classid = {sdcms:class_id} and ispass=1" order="Ontop desc,id desc"}
+		{@eof}<li>没有资料</li>{/@eof}
 		<li><a href="{@link}" title="{@title}">{@title}</a></li>
 		{/@sdcms:loop}
 <!--

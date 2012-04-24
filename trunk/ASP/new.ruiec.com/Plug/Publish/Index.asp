@@ -96,11 +96,30 @@
 	Select Case Action
 		Case "save":SaveInfo
 		Case Else
-			Dim Temp
+			Dim Temp,Show
 			Set Temp=New Templates
-				Temp.Label "{sdcms:sort}",Get_Class(0)
-				Temp.Load(Load_temp_dir&sdcms_skins_Publish)
-				Echo Temp.Display
+			Temp.Label "{sdcms:class_id}",0
+			Temp.Label "{sdcms:class_title}","匿名投稿"
+			Temp.Label "{sdcms:class_title_site}","匿名投稿"
+			Temp.Label "{sdcms:map_nav}",""
+			'Temp.Load(Load_temp_dir&sdcms_skins_Publish)
+			'Echo Temp.Display
+			Show=Temp.Sdcms_Load(Sdcms_Root&"skins/"&Sdcms_Skins_Root&"/"&sdcms_skins_Publish)
+		
+			Temp.TemplateContent=Show
+			Temp.Analysis_Static()
+			Show=Temp.Display
+			Temp.Page_Mark(Show)
+			
+			Temp.TemplateContent=Show
+			Temp.Analysis_Static()
+			Temp.Analysis_Loop()
+			Temp.Analysis_IIF()
+			Show=Temp.Gzip
+			Show=Temp.Display
+
+			Echo Show
+
 			Set Temp=Nothing
 	End Select
 %>

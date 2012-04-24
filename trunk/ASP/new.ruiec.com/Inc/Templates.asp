@@ -112,6 +112,7 @@ Class Templates
 	
 	Public Sub Analysis_IIF()
 		Sdcms_IIF
+		Sdcms_DIY
 		TemplateData=Replace(TemplateData,"{sdcms:runtime}",Runtime)
 		TemplateData=Replace(TemplateData,"{sdcms:dbquery}",DbQuery)
 	End Sub
@@ -295,7 +296,7 @@ Class Templates
 	Function GetShowPageInfo(TabName,StrWhere,PageId,PageShowCount,showListCount,countText)
 		If TabName="" Then
 			Response.write("Error:调用参数错误!")
-			Response.End
+			Exit Function
 		End If
 		If PageId=0 Then PageId=1 End If
 		If PageShowCount=0 Then PageShowCount=20 End If
@@ -318,6 +319,9 @@ Class Templates
 		Else
 			Dim InfoCount
 				InfoCount=myrs(0)
+			
+			If InfoCount=0 Then Exit Function End If
+
 			If InfoCount Mod PageShowCount=0 Then 
 				IPageMax=Int(InfoCount/PageShowCount)
 			Else 
@@ -525,6 +529,9 @@ Class Templates
 						Case "urldecode":t3=UrlDecode(t3)
 						Case "total":t3=Eval(Replace(Left(t3,Len(t3)-1),"|","+"))
 						Case "keyword":t3=Highlight(t3,Tag_functions(1))
+						Case "v":t3=v(t3)
+						Case "rv":t3=rv(t3)
+						Case "rev":t3=rev(t3)
 					End Select
 				End IF
 				
@@ -806,6 +813,29 @@ Class Templates
 			Get_Page=Single_tag(t3,True)
 	End Function
 
+	'==============================
+	'自定义解析
+	'==============================
+	Public Sub Sdcms_DIY()
+		On Error Resume Next
+		Dim Matches,Match,reobj
+		Reg.Pattern="\{diy\}([\s\S]+?)\{/diy\}"
+		Set Matches=Reg.Execute(TemplateData)
+		IF Matches.Count>0 Then
+			For Each Match In Matches
+				'Execute("Set reobj = "&Match.SubMatches(0)&"")
+				'Execute(""&Match.SubMatches(0)&"")
+				'reobj = Execute("LabelData.Item(""sdcms:class_title"")")
+				'Response.write reobj
+
+				'TemplateData=Replace(TemplateData,Match.Value,Execute("LabelData.Item(""sdcms:class_title"")"))'reobj)
+
+				IF Err Then Echo "自定义标签: ["&(Match.SubMatches(0)&"错误提示："&Err.Description) & "]<br />":Err.Clear:Exit Sub
+			Next
+		End IF
+		Set Matches=Nothing
+	End Sub
+
 End Class
 
 Function Get_Link(ByVal t0,ByVal t1)
@@ -838,7 +868,7 @@ Function Get_Link(ByVal t0,ByVal t1)
 		Case "sd_tags"
 			Select Case Sdcms_Mode
 				Case "1":Get_Link=Sdcms_Root&"tags/"&t1&Sdcms_Filetxt
-				Case Else:Get_Link=Sdcms_Root&"tags/?/"&t1&"/"
+				Case Else:Get_Link=Sdcms_Root&"tags/?tag="&t1&""
 			End Select
 	End Select
 End Function

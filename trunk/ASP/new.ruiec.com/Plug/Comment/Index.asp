@@ -111,12 +111,34 @@ End Sub
 Sub Show_Comment
 	Sdcms_Cache=False'强制关闭缓存
 	Dim ID:ID=IsNum(Trim(Request.QueryString("ID")),0)
-	Dim Temp,Show,Rs1
+	Dim Temp,Show,Rs1,page,partentids,map_nav,I,rs_P,ClassRoot
 	Set Temp=New Templates
-	Set Rs1=Conn.Execute("Select Top 1 Title,ClassUrl,HtmlName From View_Info Where ID="&ID&"")
+	Set Rs1=Conn.Execute("Select Top 1 Title,ClassUrl,HtmlName,Partentid From View_Info Where ID="&ID&"")
 	IF Not Rs1.Eof Then
 		Temp.Label "{sdcms:info_title}",Rs1(0)
-	End IF
+		Temp.Label "{sdcms:class_title}","评论: "&Rs1(0)
+		Temp.Label "{sdcms:class_title_site}","评论: "&Rs1(0)
+		partentids = Rs1(3)
+	End If
+	If request("Page")<>"" Then Page=request("Page") Else Page=1 End If
+	
+	partentids=Split(partentids,",")
+	For I=ubound(partentids) To 0 Step -1
+		Set Rs_P=Conn.Execute("Select ClassUrl,title,ID From Sd_class Where Id="&partentids(I)&"")
+		IF Not Rs_P.Eof Then
+			Select Case Sdcms_Mode
+				Case "0"
+					ClassRoot=Sdcms_Root&"Info/?Id="&Rs_P(2)
+				Case "1"
+					ClassRoot=Sdcms_Root&"html/"&Rs_P(0)
+				Case "2"
+					ClassRoot=Sdcms_Root&Sdcms_HtmDir&Rs_P(0)
+			End Select
+			map_nav=map_nav&" > <a href="&ClassRoot&">"&Rs_P(1)&"</a>"
+			Rs_P.Close:Set Rs_P=Nothing
+		End IF
+	Next
+
 	Dim info_url
 	Select Case Sdcms_Mode
 	Case "0":info_url=sdcms_root&"info/view.asp?id="&id
@@ -126,70 +148,26 @@ Sub Show_Comment
 	end select
 	Temp.Label "{sdcms:info_id}",ID
 	Temp.Label "{sdcms:info_url}",info_url
-	
-	Show=Temp.Sdcms_Load(Load_temp_dir&sdcms_skins_comment)
+	Temp.Label "{sdcms:map_nav}",map_nav
+	Temp.Label "{sdcms:class_id}",0
+	Temp.Label "{sdcms:so_pate}",page
+
+	Show=Temp.Sdcms_Load(Sdcms_Root&"skins/"&Sdcms_Skins_Root&"/"&sdcms_skins_comment)
+		
 	Temp.TemplateContent=Show
 	Temp.Analysis_Static()
 	Show=Temp.Display
 	Temp.Page_Mark(Show)
-	
-	Dim PageField,PageTable,PageWhere,PageOrder,PagePageSize,PageEof,PageLoop,PageHtml
-	PageHtml=Temp.Page_Html
-	PageField=Temp.Page_Field
-	PageTable=Temp.Page_Table
-	PageWhere=Temp.Page_Where
-	PageOrder=Temp.Page_Order
-	PagePageSize=Temp.Page_PageSize
-	PageEof=Temp.Page_Eof
-	PageLoop=Temp.Page_Loop
-	IF Len(PagePageSize)=0 Then
-		Echo "请正确使用评论模板":Died
-	End IF
-	Dim Page:Page=IsNum(Trim(Request.QueryString("Page")),1)
-	Dim P,I
-	Set P=New Sdcms_Page
-	With P
-		.Conn=Conn
-		.Pagesize=PagePageSize
-		.PageNum=Page
-		.Table=PageTable
-		.Field=PageField
-		.Where=PageWhere
-		.Key="ID"
-		.Order=PageOrder
-		.PageStart="?ID="&ID&"&Page="
-	End With
-	Set Rs=P.Show
-
-	IF Err Then
-		Show=Replace(Show,PageHtml,PageEof)
-		Temp.Label "{sdcms:listpage}",""
-		Err.Clear
-	Else
-		Dim Get_Loop,t1
-		Get_Loop=""
-		t1=""
-		For I=1 To P.PageSize
-			IF Rs.Eof Or Rs.Bof Then Exit For
-				t1=PageLoop
-				t1=t1&Temp.Get_Page(t1,PageTable,I)
-				Get_Loop=Get_Loop&t1
-			Rs.MoveNext
-		Next
-		Get_Loop=Replace(Get_Loop,PageLoop,"")
-		Show=Replace(Show,PageHtml,Get_Loop)
-		Temp.Label "{sdcms:listpage}",P.PageList
-	End IF
+		
 	Temp.TemplateContent=Show
 	Temp.Analysis_Static()
 	Temp.Analysis_Loop()
 	Temp.Analysis_IIF()
 	Show=Temp.Gzip
 	Show=Temp.Display
+
 	Echo Show
-	Set Temp=Nothing
-	Rs1.Close
-	Set Rs1=Nothing
+	Set Temp=Nothing	
 End Sub
 
 Sub Support

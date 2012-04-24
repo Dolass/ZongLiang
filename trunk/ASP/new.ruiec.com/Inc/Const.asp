@@ -1,8 +1,10 @@
 <%
 '网站名称
     Dim Sdcms_WebName:Sdcms_WebName="中瑞传媒"
+'首页标题
+    Dim Sdcms_WebIndexTitle:Sdcms_WebIndexTitle="行业展会,网络营销,网络公关,品牌策划,整合营销"
 '网站域名
-    Dim Sdcms_WebUrl:Sdcms_WebUrl="http://192.168.1.101"
+    Dim Sdcms_WebUrl:Sdcms_WebUrl="http://localhost"
 '系统目录，根目录为："/",虚拟目录形式为："/sdcms/"
     Dim Sdcms_Root:Sdcms_Root="/"
 '运行模式,0为动态默认，1为伪静态，2为静态
