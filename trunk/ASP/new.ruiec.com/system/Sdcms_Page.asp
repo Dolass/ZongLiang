@@ -122,8 +122,8 @@ Sub Add
 	End IF
 	Echo Check_Add
 %>
-  <table width="98%" border="0" align="center" cellpadding="3" cellspacing="1">
   <form name="add" method="post" action="?action=save&id=<%=id%>" onSubmit="return checkadd()">
+  <table width="98%" border="0" align="center" cellpadding="3" cellspacing="1">
     <tr>
       <td width="120" align="center" class="tdbg">栏目名称：      </td>
       <td class="tdbg"><input name="t0" type="text" class="input" value="<%=t0%>" id="t0" size="50"></td>
@@ -155,14 +155,18 @@ Sub Add
     </tr>
    <tr class="tdbg">
       <td align="center">栏目内容：</td>
-      <td><textarea name="t7" id="t7" style="width:100%;height:300px;"><%=Content_Encode(t7)%></textarea><%admin_upfile 10,"100%","20","","UpLoadIframe",0,1%><input name="up" id="up" type="checkbox" value="1" /><label for="up">保存远程图片</label></td>
+      <td>
+	  <div id="div_Page_Con" style="display:none;"><%=Content_Encode(t7)%></div>
+	  <script>Start_MyEdit("t7","div_Page_Con");</script>
+	  <!--<textarea name="t7" id="t7" style="width:100%;height:300px;"><%=Content_Encode(t7)%></textarea>-->
+	  <%admin_upfile 10,"100%","20","","UpLoadIframe",0,1%><input name="up" id="up" type="checkbox" value="1" /><label for="up">保存远程图片</label></td>
     </tr>
     <tr class="tdbg">
 	  <td>&nbsp;</td>
       <td><input type="submit" class="bnt" value="保存设置"> <input type="button" onClick="history.go(-1)" class="bnt" value="放弃返回"></td>
     </tr>
-	</form>
   </table>
+  </form>
 <%
 End Sub
 
@@ -309,11 +313,11 @@ End Function
 
 Function Check_Add
 	Check_Add="	<script>"&vbcrlf
-	Check_Add=Check_Add& "KE.show({"
-	Check_Add=Check_Add& "			id : 't7',"
-	Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
-	Check_Add=Check_Add& "			fileUploadJson : '../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp?act=1'"
-	Check_Add=Check_Add& "		});"
+	'Check_Add=Check_Add& "KE.show({"
+	'Check_Add=Check_Add& "			id : 't7',"
+	'Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
+	'Check_Add=Check_Add& "			fileUploadJson : '../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp?act=1'"
+	'Check_Add=Check_Add& "		});"
 	Check_Add=Check_Add&"	function checkadd()"&vbcrlf
 	Check_Add=Check_Add&"	{"&vbcrlf
 	Check_Add=Check_Add&"	if (document.add.t0.value=='')"&vbcrlf
@@ -329,12 +333,12 @@ Function Check_Add
 	Check_Add=Check_Add&"	document.add.t4.focus();"&vbcrlf
 	Check_Add=Check_Add&"	return false"&vbcrlf
 	Check_Add=Check_Add&"	}"&vbcrlf
-	Check_Add=Check_Add&"	if (KE.isEmpty('t7'))"&vbcrlf
-	Check_Add=Check_Add&"	{"&vbcrlf
-	Check_Add=Check_Add&"	alert('内容不能为空');"&vbcrlf
-	Check_Add=Check_Add&"	document.add.t7.focus;"&vbcrlf
-	Check_Add=Check_Add&"	return false"&vbcrlf
-	Check_Add=Check_Add&"	}"&vbcrlf
+	'Check_Add=Check_Add&"	if (KE.isEmpty('t7'))"&vbcrlf
+	'Check_Add=Check_Add&"	{"&vbcrlf
+	'Check_Add=Check_Add&"	alert('内容不能为空');"&vbcrlf
+	'Check_Add=Check_Add&"	document.add.t7.focus;"&vbcrlf
+	'Check_Add=Check_Add&"	return false"&vbcrlf
+	'Check_Add=Check_Add&"	}"&vbcrlf
 	Check_Add=Check_Add&"	}"&vbcrlf
 	Check_Add=Check_Add&"	</script>"&vbcrlf
 End Function

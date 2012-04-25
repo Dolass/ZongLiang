@@ -272,7 +272,9 @@ Sub Add
     </tr>
    <tr class="tdbg<%=IIF(t9=1," dis","")%>" id="flag2">
       <td align="center">信息内容：</td>
-      <td><textarea name="t11" id="t11" style="width:100%;height:300px;"><%=Content_Encode(t11)%></textarea>
+      <td>
+	  <div id="div_Lab_Con" style="display:none;"><%=Content_Encode(t11)%></div>
+  	  <script>Start_MyEdit("t11","div_Lab_Con");</script>
 	  <input name="up" id="up" type="checkbox" value="1" /><label for="up">保存远程图片</label><input type="checkbox" value="1" name="up1" id="up1" /><label for="up1">提取内容中第一张图片为缩略图</label>
 	  </td>
     </tr>
@@ -748,19 +750,19 @@ End Sub
 
 Function Check_Add
 	Check_Add="	<script>"&vbcrlf
-	Check_Add=Check_Add& "KE.show({"
-	Check_Add=Check_Add& "			id : 't11',"
-	Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
-	Check_Add=Check_Add& "			fileUploadJson : '../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp?act=1'"
-	Check_Add=Check_Add& "		});"
-	Check_Add=Check_Add& "KE.show({"
-	Check_Add=Check_Add& "			id : 'O6',"
-	Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
-	Check_Add=Check_Add& "			items : ["
-	Check_Add=Check_Add& "				'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',"
-	Check_Add=Check_Add& "				'|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',"
-	Check_Add=Check_Add& "				'insertunorderedlist', '|',  'image', 'link', 'unlink','source', 'about']"
-	Check_Add=Check_Add& "		});"
+	'Check_Add=Check_Add& "KE.show({"
+	'Check_Add=Check_Add& "			id : 't11',"
+	'Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
+	'Check_Add=Check_Add& "			fileUploadJson : '../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp?act=1'"
+	'Check_Add=Check_Add& "		});"
+	'Check_Add=Check_Add& "KE.show({"
+	'Check_Add=Check_Add& "			id : 'O6',"
+	'Check_Add=Check_Add& "			imageUploadJson : '../../../"&Get_ThisFolder&"Sdcms_Editor_Up.asp',"
+	'Check_Add=Check_Add& "			items : ["
+	'Check_Add=Check_Add& "				'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',"
+	'Check_Add=Check_Add& "				'|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',"
+	'Check_Add=Check_Add& "				'insertunorderedlist', '|',  'image', 'link', 'unlink','source', 'about']"
+	'Check_Add=Check_Add& "		});"
 	Check_Add=Check_Add& "$(function(){$.showcolor('color','c0_2');});"&vbcrlf
 	Check_Add=Check_Add&"	function checkadd()"&vbcrlf
 	Check_Add=Check_Add&"	{change_tab()"&vbcrlf
