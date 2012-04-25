@@ -43,6 +43,8 @@
     Dim Sdcms_Comment_Pass:Sdcms_Comment_Pass=1
 '评论审核
     Dim Sdcms_Comment_IsPass:Sdcms_Comment_IsPass=0
+'后台编辑器
+    Dim Sdcms_editType:Sdcms_editType=0
 'Html标签过滤
     Dim Sdcms_BadHtml:Sdcms_BadHtml="Table|TBODY|TR|TD|Body|Meta|iframe|SCRIPT|form|style|div|object|TEXTAREA"
 'Html标签事件过滤

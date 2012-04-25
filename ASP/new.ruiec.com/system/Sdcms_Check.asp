@@ -107,8 +107,10 @@ Sub Sdcms_Head
 		.Write"<title>网站信息管理系统</title>"&vbcrlf
 		.Write"<link href=""css/sdcms.css"" rel=""stylesheet"" type=""text/css"" />"&vbcrlf
 		.Write"<script language=""javascript"" src=""js/sdcms.js""></script>"&vbcrlf
-		.Write"<script type=""text/javascript"" src=""../editor/jquery.js""></script>"&vbcrlf
-		.Write"<script type=""text/javascript"" src=""../editor/kindeditor.js"" charset=""utf-8"" ></script>"&vbcrlf
+		.Write"<script language=""javascript"" src=""js/jquery.min.js""></script>"&vbcrlf
+		.Write"<script language=""javascript"" src=""js/MyEditObj.js?type="&Sdcms_editType&"&root="&Sdcms_WebUrl&Sdcms_Root&""" charset='utf8'></script>"&vbcrlf
+		'.Write"<script type=""text/javascript"" src=""../editor/jquery.js""></script>"&vbcrlf
+		'.Write"<script type=""text/javascript"" src=""../editor/kindeditor.js"" charset=""utf-8"" ></script>"&vbcrlf
 		.Write"<script type=""text/javascript"" src=""js/color.js""></script>"&vbcrlf
 		IF Instr(Request.ServerVariables("SCRIPT_NAME"),"sdcms_main")<>0 then
 		.Write"<script language=""javascript"">$(document).ready(function (){Get_Notice(0,""sdcms_notice"");Get_Notice(1,""sdcms_nice"");});</script>"&vbcrlf

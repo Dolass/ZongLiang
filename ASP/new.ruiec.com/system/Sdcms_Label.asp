@@ -111,15 +111,18 @@ Sub add
 	End IF
 	Echo Check_Add
 %>
-  <table width="98%" border="0" align="center" cellpadding="3" cellspacing="1">
   <form name="add" method="post" action="?action=save&id=<%=id%>" onSubmit='return checkadd()'>
+   <table width="98%" border="0" align="center" cellpadding="3" cellspacing="1">
     <tr>
       <td width="120" align="center" class="tdbg">碎片名称：      </td>
       <td>{sdcms_<%IF ID=0 Then%><input name="t0" type="text" class="input" id="t0" size="20"><%Else%><%=t0%><%End IF%>}<%=IIF(ID=0,"　<span>碎片名称均以{sdcms_开头，不可重复，不可更改</span>","")%></td>
     </tr>
 	<tr class="tdbg" id="c">
       <td align="center">碎片内容：</td>
-      <td><textarea name="t2" rows="16" class="inputs" id="t2"><%=Content_Encode(t2)%></textarea></td>
+	  <td>
+		<div id="div_Lab_Con" style="display:none;"><%=Content_Encode(t2)%></div>
+		<script>Start_MyEdit("t2","div_Lab_Con");</script>
+	  </td>
    </tr>
     <tr>
       <td align="center" class="tdbg">碎片说明：      </td>
@@ -134,17 +137,19 @@ Sub add
 	  <td>&nbsp;</td>
       <td><input type="submit" class="bnt" value="保存设置"> <input type="button" onClick="history.go(-1)" class="bnt" value="放弃返回"></td>
     </tr>
-	</form>
   </table>
+  </form>
 <%
 End Sub
 Sub Save
+	Dim Item
 	Dim t0,t1,t2,t3,rs,sql,LogMsg,ID
 	ID=IsNum(Trim(Request.QueryString("ID")),0)
 	t0=Trim(Request.Form("t0"))
 	t1=IsNum(Trim(Request.Form("t1")),0)
 	t2=Trim(Request.Form("t2"))
 	t3=FilterText(Trim(Request.Form("t3")),1)
+	't3=Request.Form("t3")
 	IF ID=0 Then sdcms.Check_lever 25 Else sdcms.Check_lever 26
 	Set Rs=Server.CreateObject("adodb.recordset")
 	Sql="select title,ispass,content,notes,adddate,id from "&Sd_Table&""

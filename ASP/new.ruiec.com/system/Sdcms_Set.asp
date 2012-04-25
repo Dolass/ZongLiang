@@ -131,6 +131,10 @@ Sub Main
       <td><input name="t8" type="radio" value="0" <%=IIF(Sdcms_comment_ispass=0,"Checked","")%> id="t8_0"><label for="t8_0">关闭</label> <input name="t8" type="radio"  value="1" <%=IIF(Sdcms_comment_ispass=1,"Checked","")%> id="t8_1"><label for="t8_1">开启</label></td>
     </tr>
 	<tr class="tdbg">
+      <td align="center">后台编辑器：</td>
+      <td><input name="admin_edit" type="radio" value="0" <%=IIF(Sdcms_editType=0,"Checked","")%> id="admin_edit_0"><label for="admin_edit_0">ueditor</label> <input name="admin_edit" type="radio"  value="1" <%=IIF(Sdcms_editType=1,"Checked","")%> id="admin_edit_1"><label for="admin_edit_1">kindeditor</label></td>
+    </tr>
+	<tr class="tdbg">
       <td align="center">关 键 字：</td>
       <td><textarea name="t4"  rows="3"  class="inputs" id="t4"><%=Content_Encode(Rs(3))%></textarea></td>
     </tr>
@@ -283,7 +287,7 @@ Sub Main
 End Sub
 
 Sub Save
-	Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27
+	Dim t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27,admin_edit
 	Dim f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12_0,f12_1,f13,f14,f15
 	Dim c0,c1,c2,c3,c4,c5,c6,c7
 	Dim Old_DataFile,Old_DataName
@@ -295,6 +299,7 @@ Sub Save
 	t6=FilterText(Trim(Request.Form("t6")),1)
 	t7=FilterText(Trim(Request.Form("t7")),1)
 	t8=FilterText(Trim(Request.Form("t8")),1)
+	admin_edit=FilterText(Trim(Request.Form("admin_edit")),1)
 	t9=FilterText(Trim(Request.Form("t9")),0)'过滤开始
 	t10=FilterText(Trim(Request.Form("t10")),0)
 	t11=FilterText(Trim(Request.Form("t11")),0)'过滤结束
@@ -488,6 +493,8 @@ Sub Save
 	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_Comment_Pass:Sdcms_Comment_Pass="&t7&vbcrlf
 	Config=Config&"'评论审核"& vbcrlf
 	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_Comment_IsPass:Sdcms_Comment_IsPass="&t8&vbcrlf
+	Config=Config&"'后台编辑器"& vbcrlf
+	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_editType:Sdcms_editType="&admin_edit&vbcrlf
 	Config=Config&"'Html标签过滤"& vbcrlf
 	Config=Config&""&CHR(32)&CHR(32)&CHR(32)&CHR(32)&"Dim Sdcms_BadHtml:Sdcms_BadHtml="""&t9&""""&vbcrlf
 	Config=Config&"'Html标签事件过滤"& vbcrlf
